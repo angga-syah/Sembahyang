@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<paths>
+    <!-- Hanya folder adzan custom yang dibagikan — sistem perlu membacanya untuk membunyikan
+         notifikasi, tapi tidak ada alasan mengekspos berkas aplikasi yang lain. -->
+    <files-path name="adhan" path="adhan/" />
+</paths>

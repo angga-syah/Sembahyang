@@ -1,0 +1,40 @@
+*.iml
+.gradle
+/local.properties
+/.idea
+.DS_Store
+/build
+/captures
+.externalNativeBuild
+.cxx
+local.properties
+app/build
+app/release
+*.apk
+*.aab
+
+# Penandatanganan rilis — rahasia, tidak boleh masuk repositori
+keystore.properties
+*.jks
+*.keystore
+
+# APK/paket aplikasi pihak ketiga yang pernah diunduh untuk riset arsitektur (lihat riwayat
+# percakapan) — proprietary milik pengembang lain, TIDAK BOLEH ikut terpublikasi ke repo publik
+# manapun dengan alasan apa pun, terlepas dari lisensi yang dipakai repo ini sendiri.
+*.xapk
+
+# Gambar sumber generate Gemini untuk icon — dipakai sekali untuk turunan PNG/XML aset yang
+# sudah ada di res/, tidak dipakai app itu sendiri. Disimpan lokal saja, tidak perlu ikut repo.
+Gemini_Generated_Image_*.jpg
+
+# Kotlin, IDE lain, rahasia & log
+.kotlin/
+.vscode/
+.fleet/
+google-services.json
+secrets.properties
+.env
+.env.*
+*.log
+Thumbs.db
+desktop.ini

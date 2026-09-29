@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<adaptive-icon xmlns:android="http://schemas.android.com/apk/res/android">
+    <background android:drawable="@drawable/ic_launcher_background" />
+    <foreground android:drawable="@mipmap/ic_launcher_foreground" />
+    <!-- monochrome: dipakai Android 13+ untuk "themed icon" (ikut palet wallpaper user di
+         launcher, opsional dan cuma soal launcher, TIDAK terkait Material You dalam app yang
+         sudah dimatikan di Theme.kt). Referensi foreground yang sama; alpha channel-nya
+         sudah berupa siluet bersih, sistem yang mewarnai ulang jadi satu warna sendiri. -->
+    <monochrome android:drawable="@mipmap/ic_launcher_foreground" />
+</adaptive-icon>

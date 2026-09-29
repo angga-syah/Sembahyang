@@ -1,0 +1,183 @@
+{
+  "steps": [
+    {
+      "title": "Niat",
+      "note": "Rukun sholat. Niat letaknya di hati; melafalkannya dengan lisan adalah kebiasaan sebagian mazhab (Syafi'i) untuk membantu kemantapan hati, bukan syarat sah. Lafal di bawah untuk sholat sendirian — makmum menambahkan مَأْمُوْمًا, imam menambahkan إِمَامًا sebelum لِلَّهِ تَعَالَى.",
+      "readings": [
+        {
+          "label": "Subuh (2 rakaat)",
+          "arabic": "أُصَلِّيْ فَرْضَ الصُّبْحِ رَكْعَتَيْنِ مُسْتَقْبِلَ الْقِبْلَةِ أَدَاءً لِلَّهِ تَعَالَى",
+          "latin": "Ushallî fardhash shubhi rak'ataini mustaqbilal qiblati adâ'an lillâhi ta'âlâ.",
+          "translation": "Aku niat sholat fardhu Subuh dua rakaat menghadap kiblat, tunai karena Allah Ta'ala."
+        },
+        {
+          "label": "Dzuhur (4 rakaat)",
+          "arabic": "أُصَلِّيْ فَرْضَ الظُّهْرِ أَرْبَعَ رَكَعَاتٍ مُسْتَقْبِلَ الْقِبْلَةِ أَدَاءً لِلَّهِ تَعَالَى",
+          "latin": "Ushallî fardhazh zhuhri arba'a raka'âtin mustaqbilal qiblati adâ'an lillâhi ta'âlâ.",
+          "translation": "Aku niat sholat fardhu Dzuhur empat rakaat menghadap kiblat, tunai karena Allah Ta'ala."
+        },
+        {
+          "label": "Ashar (4 rakaat)",
+          "arabic": "أُصَلِّيْ فَرْضَ الْعَصْرِ أَرْبَعَ رَكَعَاتٍ مُسْتَقْبِلَ الْقِبْلَةِ أَدَاءً لِلَّهِ تَعَالَى",
+          "latin": "Ushallî fardhal 'ashri arba'a raka'âtin mustaqbilal qiblati adâ'an lillâhi ta'âlâ.",
+          "translation": "Aku niat sholat fardhu Ashar empat rakaat menghadap kiblat, tunai karena Allah Ta'ala."
+        },
+        {
+          "label": "Maghrib (3 rakaat)",
+          "arabic": "أُصَلِّيْ فَرْضَ الْمَغْرِبِ ثَلَاثَ رَكَعَاتٍ مُسْتَقْبِلَ الْقِبْلَةِ أَدَاءً لِلَّهِ تَعَالَى",
+          "latin": "Ushallî fardhal maghribi tsalâtsa raka'âtin mustaqbilal qiblati adâ'an lillâhi ta'âlâ.",
+          "translation": "Aku niat sholat fardhu Maghrib tiga rakaat menghadap kiblat, tunai karena Allah Ta'ala."
+        },
+        {
+          "label": "Isya (4 rakaat)",
+          "arabic": "أُصَلِّيْ فَرْضَ الْعِشَاءِ أَرْبَعَ رَكَعَاتٍ مُسْتَقْبِلَ الْقِبْلَةِ أَدَاءً لِلَّهِ تَعَالَى",
+          "latin": "Ushallî fardhal 'isyâ'i arba'a raka'âtin mustaqbilal qiblati adâ'an lillâhi ta'âlâ.",
+          "translation": "Aku niat sholat fardhu Isya empat rakaat menghadap kiblat, tunai karena Allah Ta'ala."
+        }
+      ]
+    },
+    {
+      "title": "Takbiratul Ihram",
+      "note": "Rukun. Mengangkat kedua tangan sejajar telinga/bahu sambil bertakbir.",
+      "readings": [
+        {
+          "label": "",
+          "arabic": "اللَّهُ أَكْبَرُ",
+          "latin": "Allâhu akbar.",
+          "translation": "Allah Maha Besar."
+        }
+      ]
+    },
+    {
+      "title": "Doa Iftitah",
+      "note": "Sunnah, dibaca sekali di rakaat pertama setelah takbiratul ihram. Ada beberapa riwayat yang sama-sama sahih — pilih salah satu, tidak dibaca semuanya.",
+      "readings": [
+        {
+          "label": "Versi 1 — Allâhu akbar kabîrâ",
+          "arabic": "اللَّهُ أَكْبَرُ كَبِيْرًا وَالْحَمْدُ لِلَّهِ كَثِيْرًا وَسُبْحَانَ اللَّهِ بُكْرَةً وَأَصِيْلًا. إِنِّيْ وَجَّهْتُ وَجْهِيَ لِلَّذِيْ فَطَرَ السَّمَاوَاتِ وَالْأَرْضَ حَنِيْفًا مُسْلِمًا وَمَا أَنَا مِنَ الْمُشْرِكِيْنَ. إِنَّ صَلَاتِيْ وَنُسُكِيْ وَمَحْيَايَ وَمَمَاتِيْ لِلَّهِ رَبِّ الْعَالَمِيْنَ. لَا شَرِيْكَ لَهُ وَبِذَلِكَ أُمِرْتُ وَأَنَا مِنَ الْمُسْلِمِيْنَ",
+          "latin": "Allâhu akbar kabîrâ, walhamdu lillâhi katsîrâ, wa subhânallâhi bukratan wa ashîlâ. Innî wajjahtu wajhiya lilladzî fatharas samâwâti wal ardha hanîfam muslimaw wa mâ ana minal musyrikîn. Inna shalâtî wa nusukî wa mahyâya wa mamâtî lillâhi rabbil 'âlamîn. Lâ syarîka lahu wa bidzâlika umirtu wa ana minal muslimîn.",
+          "translation": "Allah Maha Besar dengan segala kebesaran, segala puji bagi Allah dengan pujian yang banyak, Maha Suci Allah pada pagi dan petang. Sungguh aku hadapkan wajahku kepada Dzat yang menciptakan langit dan bumi dengan lurus dan berserah diri, dan aku bukan termasuk orang-orang musyrik. Sungguh sholatku, ibadahku, hidupku, dan matiku hanya untuk Allah, Tuhan semesta alam. Tiada sekutu bagi-Nya, dan dengan itulah aku diperintahkan, dan aku termasuk orang-orang muslim."
+        },
+        {
+          "label": "Versi 2 — Allâhumma bâ'id",
+          "arabic": "اللَّهُمَّ بَاعِدْ بَيْنِيْ وَبَيْنَ خَطَايَايَ كَمَا بَاعَدْتَ بَيْنَ الْمَشْرِقِ وَالْمَغْرِبِ. اللَّهُمَّ نَقِّنِيْ مِنْ خَطَايَايَ كَمَا يُنَقَّى الثَّوْبُ الْأَبْيَضُ مِنَ الدَّنَسِ. اللَّهُمَّ اغْسِلْنِيْ مِنْ خَطَايَايَ بِالْمَاءِ وَالثَّلْجِ وَالْبَرَدِ",
+          "latin": "Allâhumma bâ'id bainî wa baina khathâyâya kamâ bâ'adta bainal masyriqi wal maghrib. Allâhumma naqqinî min khathâyâya kamâ yunaqqats tsaubul abyadhu minad danas. Allâhummaghsilnî min khathâyâya bil mâ'i wats tsalji wal barad.",
+          "translation": "Ya Allah, jauhkanlah antara aku dan kesalahan-kesalahanku sebagaimana Engkau menjauhkan timur dan barat. Ya Allah, bersihkanlah aku dari kesalahan-kesalahanku sebagaimana kain putih dibersihkan dari kotoran. Ya Allah, cucilah aku dari kesalahan-kesalahanku dengan air, salju, dan embun."
+        }
+      ]
+    },
+    {
+      "title": "Al-Fatihah",
+      "note": "Rukun, dibaca di setiap rakaat. Teks lengkapnya ada di tab Qur'an, surah ke-1.",
+      "readings": []
+    },
+    {
+      "title": "Rukuk",
+      "note": "Rukun. Dibaca tiga kali dalam keadaan rukuk.",
+      "readings": [
+        {
+          "label": "",
+          "arabic": "سُبْحَانَ رَبِّيَ الْعَظِيْمِ وَبِحَمْدِهِ",
+          "latin": "Subhâna rabbiyal 'azhîmi wa bihamdih.",
+          "translation": "Maha Suci Tuhanku Yang Maha Agung dan dengan memuji-Nya."
+        }
+      ]
+    },
+    {
+      "title": "I'tidal",
+      "note": "Rukun. Bacaan pertama diucapkan saat bangkit dari rukuk, bacaan kedua setelah berdiri tegak.",
+      "readings": [
+        {
+          "label": "Saat bangkit",
+          "arabic": "سَمِعَ اللَّهُ لِمَنْ حَمِدَهُ",
+          "latin": "Sami'allâhu liman hamidah.",
+          "translation": "Allah Maha Mendengar orang yang memuji-Nya."
+        },
+        {
+          "label": "Setelah berdiri tegak",
+          "arabic": "رَبَّنَا لَكَ الْحَمْدُ مِلْءَ السَّمَاوَاتِ وَمِلْءَ الْأَرْضِ وَمِلْءَ مَا شِئْتَ مِنْ شَيْءٍ بَعْدُ",
+          "latin": "Rabbanâ lakal hamdu mil'as samâwâti wa mil'al ardhi wa mil'a mâ syi'ta min syai'in ba'du.",
+          "translation": "Ya Tuhan kami, bagi-Mu segala puji sepenuh langit dan sepenuh bumi, dan sepenuh apa yang Engkau kehendaki sesudah itu."
+        }
+      ]
+    },
+    {
+      "title": "Doa Qunut",
+      "note": "Qunut Subuh dibaca pada i'tidal rakaat kedua sholat Subuh. Ini praktik mazhab Syafi'i yang lazim di Indonesia; mazhab lain (dan sebagian organisasi seperti Muhammadiyah) tidak membiasakannya kecuali saat qunut nazilah. Keduanya punya dasar — bukan soal benar atau salah.",
+      "readings": [
+        {
+          "label": "Qunut Subuh",
+          "arabic": "اللَّهُمَّ اهْدِنِيْ فِيْمَنْ هَدَيْتَ، وَعَافِنِيْ فِيْمَنْ عَافَيْتَ، وَتَوَلَّنِيْ فِيْمَنْ تَوَلَّيْتَ، وَبَارِكْ لِيْ فِيْمَا أَعْطَيْتَ، وَقِنِيْ شَرَّ مَا قَضَيْتَ، فَإِنَّكَ تَقْضِيْ وَلَا يُقْضَى عَلَيْكَ، وَإِنَّهُ لَا يَذِلُّ مَنْ وَالَيْتَ، وَلَا يَعِزُّ مَنْ عَادَيْتَ، تَبَارَكْتَ رَبَّنَا وَتَعَالَيْتَ",
+          "latin": "Allâhummahdinî fîman hadait, wa 'âfinî fîman 'âfait, wa tawallanî fîman tawallait, wa bârik lî fîmâ a'thait, wa qinî syarra mâ qadhait, fa innaka taqdhî wa lâ yuqdhâ 'alaik, wa innahu lâ yadzillu maw wâlait, wa lâ ya'izzu man 'âdait, tabârakta rabbanâ wa ta'âlait.",
+          "translation": "Ya Allah, berilah aku petunjuk sebagaimana mereka yang Engkau beri petunjuk. Berilah aku keselamatan sebagaimana mereka yang Engkau beri keselamatan. Peliharalah aku sebagaimana mereka yang Engkau pelihara. Berkahilah apa yang Engkau berikan kepadaku. Jagalah aku dari keburukan yang Engkau tetapkan. Sungguh Engkaulah yang menetapkan dan tidak ada yang menetapkan atas-Mu. Sungguh tidak akan hina orang yang Engkau lindungi, dan tidak akan mulia orang yang Engkau musuhi. Maha Berkah Engkau, ya Tuhan kami, dan Maha Tinggi Engkau."
+        },
+        {
+          "label": "Bila menjadi imam (bentuk jamak)",
+          "arabic": "اللَّهُمَّ اهْدِنَا فِيْمَنْ هَدَيْتَ، وَعَافِنَا فِيْمَنْ عَافَيْتَ، وَتَوَلَّنَا فِيْمَنْ تَوَلَّيْتَ، وَبَارِكْ لَنَا فِيْمَا أَعْطَيْتَ، وَقِنَا شَرَّ مَا قَضَيْتَ",
+          "latin": "Allâhummahdinâ fîman hadait, wa 'âfinâ fîman 'âfait, wa tawallanâ fîman tawallait, wa bârik lanâ fîmâ a'thait, wa qinâ syarra mâ qadhait.",
+          "translation": "Ya Allah, berilah kami petunjuk sebagaimana mereka yang Engkau beri petunjuk. Berilah kami keselamatan sebagaimana mereka yang Engkau beri keselamatan. Peliharalah kami sebagaimana mereka yang Engkau pelihara. Berkahilah apa yang Engkau berikan kepada kami. Jagalah kami dari keburukan yang Engkau tetapkan."
+        }
+      ]
+    },
+    {
+      "title": "Sujud",
+      "note": "Rukun. Dibaca tiga kali dalam keadaan sujud.",
+      "readings": [
+        {
+          "label": "",
+          "arabic": "سُبْحَانَ رَبِّيَ الْأَعْلَى وَبِحَمْدِهِ",
+          "latin": "Subhâna rabbiyal a'lâ wa bihamdih.",
+          "translation": "Maha Suci Tuhanku Yang Maha Tinggi dan dengan memuji-Nya."
+        }
+      ]
+    },
+    {
+      "title": "Duduk di antara dua sujud",
+      "note": "Rukun.",
+      "readings": [
+        {
+          "label": "",
+          "arabic": "رَبِّ اغْفِرْ لِيْ وَارْحَمْنِيْ وَاجْبُرْنِيْ وَارْفَعْنِيْ وَارْزُقْنِيْ وَاهْدِنِيْ وَعَافِنِيْ وَاعْفُ عَنِّيْ",
+          "latin": "Rabbighfir lî, warhamnî, wajburnî, warfa'nî, warzuqnî, wahdinî, wa 'âfinî, wa'fu 'annî.",
+          "translation": "Ya Tuhanku, ampunilah aku, sayangilah aku, cukupkanlah kekuranganku, angkatlah derajatku, berilah aku rezeki, berilah aku petunjuk, berilah aku keselamatan, dan maafkanlah aku."
+        }
+      ]
+    },
+    {
+      "title": "Tasyahud Awal",
+      "note": "Dibaca pada rakaat kedua sholat yang jumlah rakaatnya tiga atau empat. Sebagian kalangan menambahkan سَيِّدِنَا sebelum مُحَمَّد — keduanya sama-sama dipakai.",
+      "readings": [
+        {
+          "label": "",
+          "arabic": "التَّحِيَّاتُ الْمُبَارَكَاتُ الصَّلَوَاتُ الطَّيِّبَاتُ لِلَّهِ. السَّلَامُ عَلَيْكَ أَيُّهَا النَّبِيُّ وَرَحْمَةُ اللَّهِ وَبَرَكَاتُهُ. السَّلَامُ عَلَيْنَا وَعَلَى عِبَادِ اللَّهِ الصَّالِحِيْنَ. أَشْهَدُ أَنْ لَا إِلَهَ إِلَّا اللَّهُ وَأَشْهَدُ أَنَّ مُحَمَّدًا رَسُوْلُ اللَّهِ. اللَّهُمَّ صَلِّ عَلَى مُحَمَّدٍ",
+          "latin": "At-tahiyyâtul mubârakâtush shalawâtuth thayyibâtu lillâh. Assalâmu 'alaika ayyuhan nabiyyu wa rahmatullâhi wa barakâtuh. Assalâmu 'alainâ wa 'alâ 'ibâdillâhish shâlihîn. Asyhadu an lâ ilâha illallâh, wa asyhadu anna Muhammadar rasûlullâh. Allâhumma shalli 'alâ Muhammad.",
+          "translation": "Segala penghormatan yang diberkahi, sholawat, dan kebaikan hanya milik Allah. Semoga keselamatan, rahmat Allah, dan berkah-Nya tercurah kepadamu, wahai Nabi. Semoga keselamatan tercurah kepada kami dan kepada hamba-hamba Allah yang saleh. Aku bersaksi bahwa tiada tuhan selain Allah, dan aku bersaksi bahwa Muhammad adalah utusan Allah. Ya Allah, limpahkanlah sholawat kepada Muhammad."
+        }
+      ]
+    },
+    {
+      "title": "Tasyahud Akhir",
+      "note": "Rukun. Bacaan tasyahud dilanjutkan sholawat Ibrahimiyah di bawah ini.",
+      "readings": [
+        {
+          "label": "Sholawat Ibrahimiyah",
+          "arabic": "اللَّهُمَّ صَلِّ عَلَى مُحَمَّدٍ وَعَلَى آلِ مُحَمَّدٍ، كَمَا صَلَّيْتَ عَلَى إِبْرَاهِيْمَ وَعَلَى آلِ إِبْرَاهِيْمَ، وَبَارِكْ عَلَى مُحَمَّدٍ وَعَلَى آلِ مُحَمَّدٍ، كَمَا بَارَكْتَ عَلَى إِبْرَاهِيْمَ وَعَلَى آلِ إِبْرَاهِيْمَ، فِي الْعَالَمِيْنَ إِنَّكَ حَمِيْدٌ مَجِيْدٌ",
+          "latin": "Allâhumma shalli 'alâ Muhammad, wa 'alâ âli Muhammad, kamâ shallaita 'alâ Ibrâhîm wa 'alâ âli Ibrâhîm, wa bârik 'alâ Muhammad wa 'alâ âli Muhammad, kamâ bârakta 'alâ Ibrâhîm wa 'alâ âli Ibrâhîm, fil 'âlamîna innaka hamîdum majîd.",
+          "translation": "Ya Allah, limpahkanlah sholawat kepada Muhammad dan keluarga Muhammad, sebagaimana Engkau telah melimpahkan sholawat kepada Ibrahim dan keluarga Ibrahim. Berkahilah Muhammad dan keluarga Muhammad, sebagaimana Engkau telah memberkahi Ibrahim dan keluarga Ibrahim, di seluruh alam. Sungguh Engkau Maha Terpuji lagi Maha Mulia."
+        }
+      ]
+    },
+    {
+      "title": "Salam",
+      "note": "Rukun. Menoleh ke kanan lalu ke kiri.",
+      "readings": [
+        {
+          "label": "",
+          "arabic": "السَّلَامُ عَلَيْكُمْ وَرَحْمَةُ اللَّهِ",
+          "latin": "Assalâmu 'alaikum wa rahmatullâh.",
+          "translation": "Semoga keselamatan dan rahmat Allah tercurah kepada kalian."
+        }
+      ]
+    }
+  ]
+}

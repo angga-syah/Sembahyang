@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Latar pill semi-transparan untuk badge hitung mundur, pembeda visual dari nama/waktu
+     sholat, bukan sekadar teks polos berbaris seperti sebelumnya. -->
+<shape xmlns:android="http://schemas.android.com/apk/res/android"
+    android:shape="rectangle">
+    <corners android:radius="100dp" />
+    <solid android:color="#26FFFFFF" />
+</shape>

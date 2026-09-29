@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Kartu rounded gradasi teal, pengganti latar flat solid lama supaya widget terasa
+     modern, konsisten dengan gaya kubah bergradasi di icon launcher. -->
+<shape xmlns:android="http://schemas.android.com/apk/res/android"
+    android:shape="rectangle">
+    <corners android:radius="20dp" />
+    <gradient
+        android:angle="315"
+        android:startColor="#00897B"
+        android:endColor="@color/teal_primary_dark"
+        android:type="linear" />
+</shape>

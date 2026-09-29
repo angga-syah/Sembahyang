@@ -1,0 +1,462 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Sembahyang</string>
+
+    <string name="tab_prayer">Jadwal</string>
+    <string name="tab_qibla">Kiblat</string>
+    <string name="tab_quran">Qur\'an</string>
+    <string name="tab_ibadah">Ibadah</string>
+
+    <string name="prayer_fajr">Subuh</string>
+    <string name="prayer_sunrise">Terbit</string>
+    <string name="prayer_dhuhr">Dzuhur</string>
+    <string name="prayer_asr">Ashar</string>
+    <string name="prayer_maghrib">Maghrib</string>
+    <string name="prayer_isha">Isya</string>
+
+    <string name="widget_next_label">Sholat berikutnya</string>
+    <string name="widget_description">Waktu sholat berikutnya di layar utama</string>
+    <string name="widget_open_app">Buka app</string>
+    <string name="widget_detect_location">untuk deteksi lokasi</string>
+
+    <!-- Dipakai bersama di beberapa layar -->
+    <string name="network_in_use">Sedang memakai internet</string>
+    <string name="action_allow_location">Izinkan Lokasi</string>
+    <string name="action_refresh_location">Perbarui lokasi</string>
+    <string name="action_back">Kembali</string>
+    <string name="location_label">Lokasi: %1$s</string>
+    <string name="location_label_manual">Lokasi: %1$s (manual)</string>
+    <string name="location_dash">-</string>
+    <string name="manual_location_hint">Atau masukkan koordinat manual:</string>
+    <string name="label_latitude">Latitude</string>
+    <string name="label_longitude">Longitude</string>
+    <string name="action_save_location">Simpan Lokasi</string>
+
+    <!-- Jadwal sholat -->
+    <string name="prayer_permission_message">Izin lokasi diperlukan untuk menghitung jadwal sholat sesuai wilayahmu.</string>
+    <string name="prayer_next_label">Sholat berikutnya: %1$s</string>
+    <string name="prayer_location_error">Tidak bisa mendapatkan lokasi. Pastikan GPS aktif, atau masukkan koordinat manual.</string>
+    <string name="prayer_calculation_method">Metode kalkulasi</string>
+    <string name="prayer_monthly_schedule">Jadwal Bulanan</string>
+    <string name="prayer_monthly_no_location">Belum ada lokasi tersimpan. Buka tab Jadwal dulu supaya lokasi terdeteksi.</string>
+    <string name="prayer_monthly_date_header">Tanggal</string>
+    <string name="action_previous_month">Bulan sebelumnya</string>
+    <string name="action_next_month">Bulan berikutnya</string>
+    <string name="prayer_method_kemenag">Kemenag RI (Indonesia)</string>
+    <string name="prayer_method_mwl">Muslim World League</string>
+    <string name="prayer_method_egyptian">Mesir (Egyptian General Authority)</string>
+    <string name="prayer_method_karachi">Karachi (University of Islamic Sciences)</string>
+    <string name="prayer_method_umm_al_qura">Umm al-Qura (Makkah)</string>
+    <string name="prayer_method_isna">ISNA (Amerika Utara)</string>
+    <string name="prayer_method_singapore">Singapura</string>
+    <string name="prayer_method_turkey">Turki (Diyanet)</string>
+    <string name="prayer_method_dubai">Dubai / Teluk</string>
+    <string name="prayer_method_kuwait">Kuwait</string>
+    <string name="prayer_method_qatar">Qatar</string>
+    <string name="prayer_method_moonsighting">Moonsighting Committee</string>
+    <string name="prayer_notif_toggle_on">Notifikasi %1$s aktif — ketuk untuk mematikan</string>
+    <string name="prayer_notif_toggle_off">Notifikasi %1$s mati — ketuk untuk menyalakan</string>
+    <string name="prayer_countdown_hm">%1$d jam %2$d menit lagi</string>
+    <string name="prayer_countdown_m">%1$d menit lagi</string>
+    <string name="prayer_countdown_soon">sebentar lagi</string>
+    <string name="prayer_countdown_now">sudah masuk waktunya</string>
+    <string name="adhan_playback_channel_name">Adzan sedang diputar</string>
+    <string name="adhan_playback_channel_description">Muncul selama adzan berbunyi, berisi tombol berhenti</string>
+    <string name="prayer_notif_channel_name">Pengingat waktu sholat</string>
+    <string name="prayer_notif_channel_description">Notifikasi saat masuk waktu sholat</string>
+    <string name="prayer_notif_title_format">Waktu %1$s telah masuk</string>
+    <string name="prayer_notif_text_format">Saatnya menunaikan sholat %1$s.</string>
+
+    <!-- Kiblat -->
+    <string name="compass_north">U</string>
+    <string name="compass_east">T</string>
+    <string name="compass_south">S</string>
+    <string name="compass_west">B</string>
+    <string name="qibla_permission_message">Izin lokasi diperlukan untuk menghitung arah kiblat dari posisimu.</string>
+    <string name="qibla_direction_format">Arah kiblat: %1$.1f° dari utara</string>
+    <string name="qibla_no_sensor_message">HP ini tidak punya sensor kompas, jadi panah otomatis tidak bisa ditampilkan. Gunakan angka derajat di atas bersama kompas fisik/aplikasi kompas lain.</string>
+    <string name="qibla_instruction">Putar HP sampai panah menunjuk lurus ke atas — itu arah kiblat.</string>
+    <string name="qibla_off_by">Meleset %1$.0f° dari arah kiblat</string>
+    <string name="qibla_low_accuracy">Akurasi kompas rendah — gerakkan HP membentuk angka 8 untuk kalibrasi ulang.</string>
+    <string name="qibla_location_error">Tidak bisa mendapatkan lokasi untuk menghitung arah kiblat.</string>
+    <string name="qibla_aligned_message">Sudah sejajar dengan arah kiblat</string>
+
+    <!-- Ibadah: menu -->
+    <string name="ibadah_title">Ibadah</string>
+    <string name="ibadah_menu_guide_title">Tata Cara Sholat</string>
+    <string name="ibadah_menu_guide_subtitle">Bacaan lengkap dari niat sampai salam</string>
+    <string name="sholat_guide_title">Tata Cara Sholat</string>
+    <string name="sholat_guide_disclaimer">Sebagian langkah punya lebih dari satu bacaan yang sama-sama sahih, dan sebagian praktik berbeda antar mazhab — misalnya qunut Subuh yang lazim di kalangan Syafi\'i tapi tidak dibiasakan mazhab lain. Varian ditampilkan berdampingan, bukan dipilihkan. Bila ragu, rujuk guru atau ustadz setempat.</string>
+    <string name="ibadah_menu_amalharian_title">Amal Harian</string>
+    <string name="ibadah_menu_amalharian_subtitle">Checklist sholat, tilawah, dan dzikir hari ini</string>
+    <string name="amal_harian_title">Amal Harian</string>
+    <string name="amal_harian_progress_format">%1$d dari %2$d selesai hari ini</string>
+    <string name="amal_harian_reset_hint">Checklist ini otomatis kosong lagi tiap pergantian hari.</string>
+    <string name="amal_item_subuh">Sholat Subuh</string>
+    <string name="amal_item_dzuhur">Sholat Dzuhur</string>
+    <string name="amal_item_ashar">Sholat Ashar</string>
+    <string name="amal_item_maghrib">Sholat Maghrib</string>
+    <string name="amal_item_isya">Sholat Isya</string>
+    <string name="amal_item_dzikir_pagi">Dzikir Pagi</string>
+    <string name="amal_item_dzikir_petang">Dzikir Petang</string>
+    <string name="amal_item_tilawah">Tilawah Al-Qur\'an</string>
+    <string name="amal_item_sedekah">Sedekah</string>
+    <string name="ibadah_menu_tasbih_title">Tasbih Digital</string>
+    <string name="ibadah_menu_tasbih_subtitle">Hitung dzikir dengan target otomatis</string>
+    <string name="ibadah_menu_dzikir_title">Dzikir Pagi &amp; Petang</string>
+    <string name="ibadah_menu_dzikir_subtitle">Bacaan dzikir harian lengkap</string>
+    <string name="ibadah_menu_puasa_title">Tracker Puasa Sunnah</string>
+    <string name="ibadah_menu_puasa_subtitle">Catat puasa Senin-Kamis, Ayyamul Bidh, dll.</string>
+    <string name="ibadah_menu_zakat_title">Kalkulator Zakat</string>
+    <string name="ibadah_menu_zakat_subtitle">Zakat fitrah &amp; zakat maal</string>
+    <string name="zakat_title">Kalkulator Zakat</string>
+    <string name="zakat_tab_fitrah">Zakat Fitrah</string>
+    <string name="zakat_tab_maal">Zakat Maal</string>
+    <string name="zakat_fitrah_explainer">Zakat fitrah wajib bagi setiap muslim, sebesar %.1f kg beras (atau senilai uang) per jiwa.</string>
+    <string name="zakat_fitrah_jiwa_label">Jumlah jiwa</string>
+    <string name="zakat_harga_beras_label">Harga beras per kg (Rp)</string>
+    <string name="zakat_fitrah_result_title">Zakat fitrah yang harus dibayar</string>
+    <string name="zakat_maal_explainer">Zakat maal wajib kalau harta sudah mencapai nisab (setara %d gram emas) dan sudah dimiliki 1 tahun penuh (haul). Kadarnya 2,5%%.</string>
+    <string name="zakat_maal_harta_label">Total harta (Rp)</string>
+    <string name="zakat_harga_emas_label">Harga emas per gram (Rp)</string>
+    <string name="zakat_maal_haul_label">Sudah dimiliki 1 tahun penuh (haul)</string>
+    <string name="zakat_maal_nisab_format">Nisab saat ini: %s</string>
+    <string name="zakat_maal_result_title">Zakat maal yang harus dibayar</string>
+    <string name="zakat_maal_not_obligated">Belum wajib zakat — harta belum mencapai nisab, atau belum genap 1 tahun (haul).</string>
+    <string name="ibadah_menu_waris_title">Kalkulator Waris</string>
+    <string name="ibadah_menu_waris_subtitle">Pembagian faraid ahli waris utama</string>
+    <string name="waris_title">Kalkulator Waris</string>
+    <string name="waris_disclaimer">Cakupan kalkulator ini HANYA ahli waris utama: pasangan, anak, ayah, ibu. Kalkulator ini TIDAK memperhitungkan kakek/nenek, saudara kandung/seayah/seibu, atau ahli waris lain — kehadiran mereka mengubah pembagian. Hasil di sini adalah alat bantu hitung, BUKAN fatwa. Untuk kasus nyata, konsultasikan ke ahli faraid, ustadz, atau notaris syariah. Harta yang dibagi adalah harta bersih setelah dikurangi biaya pengurusan jenazah, utang, dan wasiat (maksimal 1/3 harta).</string>
+    <string name="waris_pewaris_label">Jenis kelamin pewaris (yang meninggal)</string>
+    <string name="waris_pewaris_lakilaki">Laki-laki</string>
+    <string name="waris_pewaris_perempuan">Perempuan</string>
+    <string name="waris_jumlah_istri_label">Jumlah istri yang masih hidup</string>
+    <string name="waris_suami_hidup_label">Suami masih hidup</string>
+    <string name="waris_anak_lakilaki_label">Jumlah anak laki-laki hidup</string>
+    <string name="waris_anak_perempuan_label">Jumlah anak perempuan hidup</string>
+    <string name="waris_ayah_hidup_label">Ayah pewaris masih hidup</string>
+    <string name="waris_ibu_hidup_label">Ibu pewaris masih hidup</string>
+    <string name="waris_harta_label">Total harta warisan bersih (Rp, opsional)</string>
+    <string name="waris_no_heir">Isi minimal satu ahli waris untuk melihat hasil.</string>
+    <string name="waris_result_title">Pembagian</string>
+    <string name="waris_fraksi_format">%.1f%%</string>
+    <string name="waris_amount_per_person_format">%1$s per orang (%2$d orang, total %3$s)</string>
+    <string name="waris_aul_note">Total bagian tetap melebihi 1 (\'aul) — semua bagian di atas sudah diperkecil proporsional secara otomatis, sesuai kaidah baku.</string>
+    <string name="waris_radd_note">Ada sisa harta yang tidak terbagi ke ahli waris manapun dalam cakupan kalkulator ini. Ini bisa berarti ada ahli waris lain (kakek/nenek/saudara) yang berhak, atau butuh radd (pengembalian sisa) — WAJIB konsultasi ke ahli faraid untuk kasus ini.</string>
+    <string name="ibadah_section_fitur">Fitur</string>
+    <string name="ibadah_section_pengaturan">Pengaturan</string>
+    <string name="ibadah_menu_tajwid_title">Panduan Tajwid</string>
+    <string name="ibadah_menu_tajwid_subtitle">Kaidah bacaan &amp; arti warna di layar Qur\'an</string>
+    <string name="tajwid_guide_title">Panduan Tajwid</string>
+    <string name="tajwid_guide_intro">Kaidah bacaan tajwid yang dipakai untuk mewarnai teks Arab di layar baca Qur\'an. Warna tiap kartu di bawah SAMA PERSIS dengan warna yang tampil saat mode tajwid dinyalakan.</string>
+    <string name="tajwid_guide_huruf_format">Huruf/pemicu: %s</string>
+
+    <string name="tajwid_guide_qalqalah_title">Qalqalah</string>
+    <string name="tajwid_guide_qalqalah_desc">Pantulan suara yang jelas pada huruf qalqalah ketika bersukun atau saat berhenti (waqaf) di akhir bacaan, membuat huruf terdengar memantul, bukan lembek.</string>
+    <string name="tajwid_guide_qalqalah_huruf">ق ط ب ج د</string>
+
+    <string name="tajwid_guide_ghunnah_title">Ghunnah</string>
+    <string name="tajwid_guide_ghunnah_desc">Dengung yang jelas dan mantap pada huruf nun atau mim yang bertasydid, ditahan kurang lebih 2 harakat (ketukan).</string>
+    <string name="tajwid_guide_ghunnah_huruf">نّ  ·  مّ</string>
+
+    <string name="tajwid_guide_iqlab_title">Iqlab</string>
+    <string name="tajwid_guide_iqlab_desc">Nun sukun atau tanwin yang bertemu huruf ba diubah bunyinya menjadi mim, disertai dengung — ditandai tanda mim kecil di atas huruf pada mushaf.</string>
+    <string name="tajwid_guide_iqlab_huruf">ب</string>
+
+    <string name="tajwid_guide_ikhfa_title">Ikhfa</string>
+    <string name="tajwid_guide_ikhfa_desc">Nun sukun atau tanwin dibaca samar — antara jelas dan lebur — disertai dengung, ketika bertemu salah satu dari 15 huruf ikhfa.</string>
+    <string name="tajwid_guide_ikhfa_huruf">ت ث ج د ذ ز س ش ص ض ط ظ ف ق ك</string>
+
+    <string name="tajwid_guide_ikhfa_syafawi_title">Ikhfa Syafawi</string>
+    <string name="tajwid_guide_ikhfa_syafawi_desc">Mim sukun dibaca samar disertai dengung ketika bertemu huruf ba — mirip ikhfa biasa, tapi pemicunya mim sukun, bukan nun sukun/tanwin.</string>
+    <string name="tajwid_guide_ikhfa_syafawi_huruf">ب (setelah مْ)</string>
+
+    <string name="tajwid_guide_idgham_bighunnah_title">Idgham Bighunnah</string>
+    <string name="tajwid_guide_idgham_bighunnah_desc">Nun sukun atau tanwin melebur ke huruf berikutnya disertai dengung, ketika bertemu salah satu dari 4 huruf ini.</string>
+    <string name="tajwid_guide_idgham_bighunnah_huruf">ي ن م و</string>
+
+    <string name="tajwid_guide_idgham_bilaghunnah_title">Idgham Bilaghunnah</string>
+    <string name="tajwid_guide_idgham_bilaghunnah_desc">Nun sukun atau tanwin melebur ke huruf berikutnya TANPA dengung, ketika bertemu ra atau lam.</string>
+    <string name="tajwid_guide_idgham_bilaghunnah_huruf">ر ل</string>
+
+    <string name="tajwid_guide_idgham_mimi_title">Idgham Mimi (Syafawi)</string>
+    <string name="tajwid_guide_idgham_mimi_desc">Mim sukun melebur ke mim berikutnya disertai dengung, ketika dua mim bertemu berurutan.</string>
+    <string name="tajwid_guide_idgham_mimi_huruf">م (setelah مْ)</string>
+
+    <string name="tajwid_guide_madd_thabii_title">Mad Thabi\'i (Mad Asli)</string>
+    <string name="tajwid_guide_madd_thabii_desc">Pemanjangan bacaan alami sepanjang 2 harakat pada huruf mad (alif, wau, ya) yang memenuhi syarat — tanpa hamzah atau sukun sesudahnya.</string>
+    <string name="tajwid_guide_madd_thabii_huruf">ا  ·  وْ (setelah dhammah)  ·  يْ (setelah kasrah)</string>
+
+    <string name="tajwid_guide_madd_muttasil_title">Mad Wajib Muttasil</string>
+    <string name="tajwid_guide_madd_muttasil_desc">Huruf mad bertemu hamzah DALAM SATU KATA yang sama, dibaca panjang 4-5 harakat.</string>
+
+    <string name="tajwid_guide_madd_munfasil_title">Mad Jaiz Munfasil</string>
+    <string name="tajwid_guide_madd_munfasil_desc">Huruf mad di akhir kata bertemu hamzah di AWAL KATA BERIKUTNYA, dibaca panjang 2-5 harakat.</string>
+
+    <string name="tajwid_guide_madd_lazim_title">Mad Lazim</string>
+    <string name="tajwid_guide_madd_lazim_desc">Huruf mad bertemu huruf yang bersukun atau bertasydid dalam satu kata, dibaca panjang penuh 6 harakat.</string>
+
+    <string name="tajwid_guide_madd_arid_title">Mad Arid Lissukun</string>
+    <string name="tajwid_guide_madd_arid_desc">Huruf mad bertemu akhir ayat atau tempat berhenti (waqaf) — boleh dibaca 2, 4, atau 6 harakat tergantung pilihan pembaca.</string>
+
+    <string name="tajwid_guide_madd_generic_huruf">ا  ·  و  ·  ي (sebagai huruf mad)</string>
+
+    <string name="tajwid_guide_hamzat_wasl_title">Hamzat Wasl</string>
+    <string name="tajwid_guide_hamzat_wasl_desc">Hamzah penyambung yang HANYA dibaca saat memulai bacaan dari kata itu — dilewati (tidak dibaca) kalau bacaan disambung dari kata sebelumnya.</string>
+    <string name="tajwid_guide_hamzat_wasl_huruf">ٱ</string>
+
+    <string name="tajwid_guide_lam_syamsiyah_title">Lam Syamsiyah</string>
+    <string name="tajwid_guide_lam_syamsiyah_desc">Huruf lam pada kata sandang "al-" yang tidak dibaca — bunyinya melebur ke huruf syamsiyah berikutnya (ditandai tasydid pada mushaf).</string>
+    <string name="tajwid_guide_lam_syamsiyah_huruf">ت ث د ذ ر ز س ش ص ض ط ظ ل ن</string>
+
+    <string name="tajwid_guide_silent_title">Huruf/Tanda Diam</string>
+    <string name="tajwid_guide_silent_desc">Huruf yang tertulis pada mushaf tapi TIDAK dilafalkan sama sekali — misalnya alif tambahan setelah wau jama\'ah (mis. قَالُوا۟), yang murni penanda bentuk jamak.</string>
+    <string name="tajwid_guide_silent_huruf">ا (setelah وا di akhir kata)</string>
+
+    <string name="ibadah_menu_kalender_title">Kalender Hijriyah</string>
+    <string name="ibadah_menu_kalender_subtitle">Tanggal Hijriyah hari ini &amp; bulan berjalan</string>
+    <string name="ibadah_menu_about_title">Tentang Aplikasi</string>
+    <string name="ibadah_menu_about_subtitle">Sumber data, izin, baterai, dan kontak</string>
+
+    <!-- Tasbih -->
+    <string name="tasbih_title">Tasbih</string>
+    <string name="action_reset_from_zero">Ulangi dari 0</string>
+    <string name="tasbih_dzikir_label">Dzikir</string>
+    <string name="tasbih_tap_hint">Ketuk lingkaran untuk menghitung</string>
+    <string name="tasbih_complete_hint">Selesai — ketuk sekali lagi untuk mengulang dari 1</string>
+    <string name="tasbih_target_format">/ %1$d</string>
+    <string name="tasbih_preset_free">Bebas</string>
+
+    <!-- Kalender Hijriyah -->
+    <string name="hijri_weekday_sun">Min</string>
+    <string name="hijri_weekday_mon">Sen</string>
+    <string name="hijri_weekday_tue">Sel</string>
+    <string name="hijri_weekday_wed">Rab</string>
+    <string name="hijri_weekday_thu">Kam</string>
+    <string name="hijri_weekday_fri">Jum</string>
+    <string name="hijri_weekday_sat">Sab</string>
+    <string name="hijri_today_label">Hari ini</string>
+    <string name="hijri_disclaimer">Perkiraan aritmatika — bisa berbeda ±1 hari dari rukyat/hisab resmi Kemenag.</string>
+    <string name="hijri_legend">Angka kecil di bawah tanggal Masehi = tanggal Hijriyah pada hari itu.</string>
+
+    <!-- Dzikir (isi bacaan tetap bahasa Indonesia — hanya chrome UI yang mengikuti bahasa sistem) -->
+    <string name="dzikir_title">Dzikir Pagi &amp; Petang</string>
+    <string name="dzikir_set_label">Waktu &amp; versi</string>
+    <string name="dzikir_repeat_format">%1$dx</string>
+    <string name="dzikir_set_sugro_pagi">Pagi (Ringkas)</string>
+    <string name="dzikir_set_sugro_petang">Petang (Ringkas)</string>
+    <string name="dzikir_set_kubro_pagi">Pagi (Lengkap)</string>
+    <string name="dzikir_set_kubro_petang">Petang (Lengkap)</string>
+
+    <!-- Puasa Sunnah -->
+    <string name="puasa_title">Tracker Puasa Sunnah</string>
+    <string name="puasa_month_count_format">%1$d hari puasa bulan ini</string>
+    <string name="puasa_sunnah_today_format">Sunnah hari ini: %1$s</string>
+    <string name="puasa_marked_today_format">✓ Puasa hari ini: %1$s</string>
+    <string name="action_close">Tutup</string>
+    <string name="action_cancel">Batalkan</string>
+    <string name="puasa_mark_today">Tandai puasa hari ini</string>
+    <string name="puasa_history_empty">Belum ada catatan puasa. Tandai puasa hari ini lewat tombol di atas.</string>
+    <string name="puasa_history">Riwayat</string>
+    <string name="fasting_type_senin_kamis">Senin-Kamis</string>
+    <string name="fasting_type_ayyamul_bidh">Ayyamul Bidh (13-15 Hijriyah)</string>
+    <string name="fasting_type_daud">Puasa Daud</string>
+    <string name="fasting_type_syawal">Enam hari Syawal</string>
+    <string name="fasting_type_arafah">Arafah</string>
+    <string name="fasting_type_lainnya">Lainnya</string>
+
+    <!-- Al-Qur'an -->
+    <string name="quran_title">Al-Qur\'an</string>
+    <string name="quran_continue_reading">Lanjutkan membaca</string>
+    <string name="quran_last_read_format">%1$s — ayat %2$d</string>
+    <string name="quran_search_hint">Cari surah (nama atau nomor)</string>
+    <string name="quran_surah_search_empty">Tidak ada surah yang cocok dengan \"%1$s\".</string>
+    <string name="quran_juz_amma_chip">Juz Amma (Juz 30)</string>
+    <string name="quran_surah_fallback">Surah %1$d</string>
+    <string name="quran_surah_meta_format">%1$s • %2$d ayat • %3$s</string>
+    <string name="quran_type_meccan">Makkiyah</string>
+    <string name="quran_type_medinan">Madaniyah</string>
+    <string name="action_previous_surah">Surah sebelumnya</string>
+    <string name="action_next_surah">Surah berikutnya</string>
+    <string name="quran_reciter_label">Qori</string>
+    <string name="quran_downloading_format">Mengunduh audio… %1$d%%</string>
+    <string name="action_download_audio">Unduh Audio</string>
+    <string name="action_stop">Berhenti</string>
+    <string name="quran_stop_ayah_format"> (ayat %1$d)</string>
+    <string name="action_pause">Jeda</string>
+    <string name="playback_channel_name">Pemutaran murottal</string>
+    <string name="playback_channel_description">Kontrol putar/jeda saat murottal berbunyi</string>
+    <string name="action_play">Putar</string>
+    <string name="action_delete_audio">Hapus audio terunduh</string>
+    <string name="quran_ayah_number_format">Ayat %1$d</string>
+    <string name="action_remove_bookmark">Hapus tanda</string>
+    <string name="action_add_bookmark">Tandai ayat</string>
+    <string name="quran_display_settings_description">Pengaturan tampilan bacaan</string>
+    <string name="quran_section_mushaf">Gaya penulisan mushaf</string>
+    <string name="mushaf_style_kemenag">Indonesia (Kemenag/MSI)</string>
+    <string name="mushaf_style_utsmani">Internasional (Utsmani)</string>
+    <string name="quran_section_latin">Transliterasi Latin</string>
+    <string name="quran_section_translation_lang">Bahasa terjemahan</string>
+    <string name="quran_section_arabic_font">Jenis huruf Arab</string>
+    <string name="quran_section_font_size">Ukuran teks</string>
+    <string name="quran_tajweed_toggle">Tajwid berwarna</string>
+    <string name="quran_tafsir_show">Lihat Tafsir Ringkas Kemenag</string>
+    <string name="quran_tafsir_hide">Sembunyikan tafsir</string>
+    <string name="quran_tafsir_unavailable">Tafsir untuk ayat ini belum tersedia.</string>
+    <string name="quran_download_error">Gagal mengunduh sebagian audio — cek koneksi internet, lalu coba lagi.</string>
+    <string name="latin_style_indonesia">Indonesia</string>
+    <string name="latin_style_inggris">Inggris</string>
+    <string name="latin_style_hidden">Sembunyikan</string>
+    <string name="translation_lang_id_only">Indonesia saja</string>
+    <string name="translation_lang_en_only">Inggris saja</string>
+    <string name="translation_lang_both">Keduanya</string>
+    <string name="arabic_font_auto">Otomatis (ikut gaya mushaf)</string>
+    <string name="arabic_font_standard">Standar</string>
+    <string name="font_size_small">Kecil</string>
+    <string name="font_size_normal">Normal</string>
+    <string name="font_size_large">Besar</string>
+    <string name="font_size_extra_large">Sangat Besar</string>
+
+    <!-- Setelan notifikasi adzan -->
+    <string name="notif_settings_title">Setelan Notifikasi Adzan</string>
+    <string name="notif_settings_style">Cara memberi tahu</string>
+    <string name="notif_style_sound">Suara + getar</string>
+    <string name="notif_style_vibrate">Getar saja</string>
+    <string name="notif_style_silent">Senyap (hanya muncul di panel notifikasi)</string>
+    <string name="notif_pick_sound">Pilih nada notifikasi</string>
+    <string name="notif_sound_default">Nada notifikasi bawaan HP</string>
+    <string name="notif_sound_custom">Nada pilihanmu</string>
+    <string name="notif_sound_adzan_note">Aplikasi menyertakan satu rekaman adzan domain publik (CC0). Kamu juga bisa memakai nada HP sendiri atau berkas adzan milikmu lewat Setelan Notifikasi.</string>
+    <string name="adhan_source_title">Suara adzan</string>
+    <string name="adhan_source_system">Nada notifikasi bawaan HP</string>
+    <string name="adhan_source_bundled">Adzan bawaan aplikasi</string>
+    <string name="adhan_source_bundled_note">Rekaman adzan domain publik (CC0) dari Wikimedia Commons</string>
+    <string name="adhan_source_ringtone">Pilih dari nada HP</string>
+    <string name="adhan_source_file">Pilih dari berkas</string>
+    <string name="adhan_source_file_hint">Ambil berkas audio adzan milikmu sendiri</string>
+    <string name="adhan_source_file_ready">Berkas sudah tersimpan di aplikasi</string>
+    <string name="notif_sound_silent_note">Adzan sengaja diputar sebagai alarm, jadi tetap terdengar walau HP dalam mode hening. Untuk mematikannya, pilih Getar/Senyap di atas atau matikan per waktu sholat di bawah. Catatan: mode Jangan Ganggu masih bisa membungkamnya.</string>
+    <string name="notif_permission_missing_title">Izin notifikasi belum diberikan</string>
+    <string name="notif_permission_missing_body">Tanpa izin ini Android memblokir semua notifikasi aplikasi, jadi adzan tidak akan pernah muncul walau semua setelan di bawah sudah benar.</string>
+    <string name="notif_permission_grant">Izinkan Notifikasi</string>
+    <string name="notif_exact_alarm_title">Alarm presisi belum diizinkan</string>
+    <string name="notif_exact_alarm_body">Tanpa izin ini Android boleh menunda alarm, sehingga adzan bisa meleset beberapa menit dari waktu sebenarnya.</string>
+    <string name="notif_exact_alarm_open">Buka Setelan Alarm</string>
+    <string name="notif_battery_title">Penghemat baterai masih aktif</string>
+    <string name="notif_battery_body">Ini penyebab paling umum alarm Android tidak berbunyi. Android boleh menghentikan aplikasi yang dibatasi, sehingga adzan bisa terlewat sama sekali.</string>
+    <string name="notif_battery_open">Atur Penghemat Baterai</string>
+    <string name="notif_test_button">Tes bunyikan sekarang</string>
+    <string name="notif_test_title">Tes notifikasi adzan</string>
+    <string name="notif_test_body">Begini bunyinya nanti saat masuk waktu sholat.</string>
+    <string name="notif_settings_reminder">Pengingat sebelum waktu sholat</string>
+    <string name="notif_settings_reminder_desc">Notifikasi tambahan beberapa menit sebelum adzan, supaya sempat bersiap.</string>
+    <string name="notif_reminder_off">Mati</string>
+    <string name="notif_reminder_minutes">%1$d mnt</string>
+    <string name="haptic_settings_title">Getaran</string>
+    <string name="haptic_toggle_label">Getar Tasbih &amp; Kiblat</string>
+    <string name="haptic_toggle_desc">Getar saat hitungan tasbih mencapai target dan saat arah kiblat sudah sejajar. Diatur di sini, jadi tetap jalan walau getar sentuh di setelan HP dimatikan.</string>
+    <string name="prayer_offset_title">Koreksi menit</string>
+    <string name="prayer_offset_desc">Jadwal masjid sering berbeda satu-dua menit karena memakai waktu pengaman (ihtiyath) atau pembulatan sendiri. Sesuaikan di sini bila perlu.</string>
+    <string name="prayer_offset_value">%1$+d</string>
+    <string name="prayer_offset_minus">Kurangi satu menit</string>
+    <string name="prayer_offset_plus">Tambah satu menit</string>
+    <string name="notif_settings_per_prayer">Notifikasi per waktu sholat</string>
+    <string name="prayer_reminder_title_format">Sebentar lagi %1$s</string>
+    <string name="prayer_reminder_text_format">%1$d menit lagi masuk waktu %2$s.</string>
+    <string name="ibadah_menu_notif_title">Setelan Notifikasi Adzan</string>
+    <string name="ibadah_menu_notif_subtitle">Suara, getar, dan pengingat sebelum waktunya</string>
+
+    <!-- Pencarian ayat -->
+    <string name="quran_search_title">Cari Ayat</string>
+    <string name="quran_search_field_hint">Cari surah atau kata dalam ayat</string>
+    <string name="quran_search_hint_min">Ketik minimal %1$d huruf untuk mulai mencari. Pencarian mencakup terjemahan Indonesia, Inggris, dan tulisan latin.</string>
+    <string name="quran_search_section_surah">Surah</string>
+    <string name="quran_search_section_ayah">%1$d ayat ditemukan</string>
+    <string name="quran_search_empty">Tidak ada ayat yang memuat \"%1$s\".</string>
+    <string name="quran_search_result_count">%1$d ayat ditemukan</string>
+    <string name="action_clear_search">Hapus pencarian</string>
+
+    <!-- Pengelola unduhan audio -->
+    <string name="audio_manager_title">Unduh Audio Murottal</string>
+    <string name="audio_manager_description">Kelola unduhan audio</string>
+    <string name="audio_scope_surah">Per Surah</string>
+    <string name="audio_scope_juz">Per Juz</string>
+    <string name="audio_scope_all">Semua</string>
+    <string name="audio_storage_used">Audio tersimpan: %1$s</string>
+    <string name="audio_target_ayah_count">%1$d ayat</string>
+    <string name="audio_target_juz">Juz %1$d</string>
+    <string name="audio_target_juz_subtitle">Mulai %1$s • %2$d ayat</string>
+    <string name="audio_target_all">Seluruh Al-Qur\'an</string>
+    <string name="audio_target_all_subtitle">%1$d ayat — perlu ruang penyimpanan besar (±1 GB)</string>
+    <string name="audio_target_partial">Terunduh sebagian: %1$d dari %2$d ayat</string>
+    <string name="audio_state_downloaded">Sudah terunduh</string>
+    <string name="audio_downloading">Mengunduh %1$d dari %2$d ayat…</string>
+    <string name="audio_download_done">Selesai — %1$d ayat tersedia offline</string>
+    <string name="audio_download_partial">Selesai sebagian — %1$d berhasil, %2$d gagal. Ketuk unduh lagi untuk melanjutkan sisanya.</string>
+    <string name="audio_download_cancelled">Unduhan dibatalkan — bagian yang sudah terunduh tetap tersimpan.</string>
+
+    <!-- Tentang -->
+    <string name="about_title">Tentang</string>
+    <string name="about_app_tagline">Jadwal sholat, kiblat, dan Al-Qur\'an. Ringan dan bisa dipakai tanpa internet.</string>
+    <string name="about_section_sources">Dari mana data ini berasal</string>
+    <string name="about_sources_intro">Semua sumber terbuka dan dibundel sejak instal, kecuali audio. Beberapa data Kemenag di bawah diambil lewat pihak ketiga, BUKAN lewat API resmi LPMQ (quran-api.lpmqkemenag.id) yang mensyaratkan surat permohonan tertulis ke Kepala LPMQ — izin itu belum diajukan. Butir yang terpengaruh ditandai jelas di bawah.</string>
+    <string name="about_src_quran_text_title">Teks &amp; terjemahan Al-Qur\'an</string>
+    <string name="about_src_quran_text_detail">risan/quran-json oleh Risan Bagja Pradana (risanb.com), dilisensikan CC BY-SA 4.0.</string>
+    <string name="about_src_latin_id_title">Transliterasi Latin Indonesia</string>
+    <string name="about_src_latin_id_detail">API equran.id, diambil sekali saat build lalu dibundel. Syarat Layanan equran.id (dibaca lengkap) mengizinkan eksplisit "menggunakan API untuk pengembangan aplikasi" — beda status dari data Kemenag di bawah. Yang belum disebut jelas: boleh tidaknya dibundel offline permanen (bukan dipanggil live) — bisa dikonfirmasi ke admin@equran.id kalau ingin pasti.</string>
+    <string name="about_src_prayer_calc_title">Jadwal sholat &amp; kiblat</string>
+    <string name="about_src_prayer_calc_detail">Pustaka adhan-kotlin oleh Batoul Apps (algoritma posisi matahari dari \"Astronomical Algorithms\" karya Jean Meeus), dihitung 100% di perangkat dari titik GPS Anda saat itu. Bisa berselisih 1-3 menit dari jadwal resmi per-kota di bimasislam.kemenag.go.id: jadwal resmi memakai satu titik acuan tetap + koreksi ketinggian wilayah untuk seluruh kota/kabupaten, sementara app ini memakai koordinat GPS persis Anda (lebih presisi untuk lokasi Anda, tapi bisa beda dari titik acuan resminya). Untuk selaras persis dengan masjid setempat, cek jadwal resmi kota Anda atau pakai koreksi menit di Setelan Notifikasi.</string>
+    <string name="about_src_method_title">Sudut metode kalkulasi</string>
+    <string name="about_src_method_detail">Tiap metode memakai sudut matahari yang ditetapkan lembaga masing-masing (Kemenag RI, Muslim World League, Umm al-Qura, ISNA, dll.). Sudut Kemenag — Subuh 20°, Isya 18°, ihtiyat +2 menit (Terbit -2), pembulatan ke atas — dirujuk dari falakmu.id dan FAQ resmi NU Online, diverifikasi cocok dengan jadwal bimasislam.kemenag.go.id dalam toleransi 1-3 menit.</string>
+    <string name="about_src_audio_title">Audio murottal</string>
+    <string name="about_src_audio_detail">CDN Quran.com, cadangan everyayah.com. Satu-satunya data yang diunduh saat dipakai.</string>
+    <string name="about_src_audio_license_title">Lisensi audio murottal</string>
+    <string name="about_src_audio_license_detail">Quran.com: pribadi non-komersial, dan datanya HANYA boleh disimpan 7 hari kecuali diizinkan tertulis lebih lama (app ini menyimpan permanen saat diunduh) — perlu izin tertulis, hubungi support@quran.com. everyayah.com/VerseByVerseQuran.com: wajib tautan balik, dipenuhi lewat dua link di bawah ini.</string>
+    <string name="about_src_everyayah_link_label">everyayah.com ↗</string>
+    <string name="about_src_versebyverse_link_label">versebyversequran.com ↗</string>
+    <string name="about_src_adhan_title">Rekaman adzan</string>
+    <string name="about_src_adhan_detail">Beautiful adhan oleh Adam-synagda, Wikimedia Commons. Didedikasikan ke domain publik (CC0 1.0) — bebas dipakai tanpa syarat.</string>
+    <string name="about_src_dzikir_title">Dzikir pagi &amp; petang</string>
+    <string name="about_src_dzikir_detail">trianbasofi/almatsurat-json oleh Trian Basofi Rohman, dilisensikan MIT License.</string>
+    <string name="about_src_font_title">Font Arab</string>
+    <string name="about_src_font_detail">LPMQ Isep Misbah oleh Lajnah Pentashihan Mushaf Al-Qur\'an (Kemenag) untuk mushaf Indonesia, dan Amiri Quran oleh The Amiri Project Authors (SIL Open Font License 1.1) untuk mushaf Utsmani.</string>
+    <string name="about_src_kemenag_title">Teks Arab gaya Kemenag</string>
+    <string name="about_src_kemenag_detail">kodepandai/colorful-quran (MIT license pada KODE repo tsb, BUKAN pada data Kemenag di dalamnya). Data aslinya berasal dari quran.kemenag.go.id, bukan lewat API resmi LPMQ — lihat catatan izin di atas. Tervalidasi 6.236 ayat, 0 index di luar batas.</string>
+    <string name="about_src_tajweed_title">Tajwid berwarna</string>
+    <string name="about_src_tajweed_detail">semarketir/quranjson (MIT). Tervalidasi 6.236 ayat, 0 index di luar batas.</string>
+    <string name="about_src_tafsir_title">Tafsir Ringkas Kemenag</string>
+    <string name="about_src_tafsir_detail">renomureza/quran-api-id (MIT license pada kode repo), data di-scrape langsung dari quran.kemenag.go.id lewat skrip pihak ketiga — bukan API resmi LPMQ. Sama seperti butir Kemenag lain, izin pembundelan belum diajukan. Tervalidasi 6.236 ayat, 114 surah.</string>
+    <string name="about_section_resilience">Kalau server audio mati, bagaimana?</string>
+    <string name="about_resilience_detail">Hanya unduhan audio baru yang terpengaruh. Semua teks dan jadwal tersimpan di aplikasi sejak instal, dan audio yang sudah diunduh tetap bisa diputar.</string>
+    <string name="about_section_permissions">Perizinan yang digunakan</string>
+    <string name="about_permissions_intro">Hanya yang benar-benar dipakai.</string>
+    <string name="about_perm_location_title">Lokasi (GPS)</string>
+    <string name="about_perm_location_detail">Menghitung jadwal sholat &amp; arah kiblat. Diminta saat dipakai, bukan dilacak terus.</string>
+    <string name="about_perm_notification_title">Notifikasi</string>
+    <string name="about_perm_notification_detail">Pengingat saat masuk waktu sholat.</string>
+    <string name="about_perm_exact_alarm_title">Alarm presisi</string>
+    <string name="about_perm_exact_alarm_detail">Agar adzan tepat waktu, tidak telat.</string>
+    <string name="about_perm_boot_title">Deteksi restart</string>
+    <string name="about_perm_boot_detail">Menjadwalkan ulang adzan setelah HP restart.</string>
+    <string name="about_perm_vibrate_title">Getar</string>
+    <string name="about_perm_vibrate_detail">Getar saat hitungan Tasbih penuh dan saat kiblat sejajar.</string>
+    <string name="about_perm_internet_title">Internet</string>
+    <string name="about_perm_internet_detail">Hanya untuk mengunduh audio murottal.</string>
+    <string name="about_perm_none_title">Tidak ada izin lain</string>
+    <string name="about_perm_none_detail">Tidak ada akses kamera, mikrofon, kontak, SMS, atau galeri.</string>
+    <string name="about_section_battery">Penggunaan baterai &amp; resource</string>
+    <string name="about_battery_intro">Yang berjalan di latar hanya pemutar murottal, itu pun selama audio diputar.</string>
+    <string name="about_battery_no_bg_title">Proses latar belakang</string>
+    <string name="about_battery_no_bg_detail">Sistem membangunkan HP sesaat 6x sehari untuk alarm sholat.</string>
+    <string name="about_battery_compass_title">Sensor kompas</string>
+    <string name="about_battery_compass_detail">Berhenti otomatis saat pindah tab.</string>
+    <string name="about_battery_memory_title">Data Qur\'an di memori</string>
+    <string name="about_battery_memory_detail">Disimpan setelah dibuka sekali agar tidak dibaca ulang.</string>
+    <string name="about_battery_storage_title">Penyimpanan</string>
+    <string name="about_battery_storage_detail">Hanya surah yang kamu unduh sendiri. Bisa dihapus kapan saja.</string>
+    <string name="about_battery_manufacturer_title">Catatan merek HP tertentu</string>
+    <string name="about_battery_manufacturer_detail">Xiaomi/Oppo/Vivo punya pengaturan Autostart sendiri yang bisa memblokir notifikasi setelah restart. Izinkan aplikasi ini di Setelan HP.</string>
+    <string name="about_section_feedback">Kritik &amp; Saran</string>
+    <string name="about_feedback_intro">Ada bug atau saran?</string>
+    <string name="about_feedback_email_subject">Kritik &amp; Saran — Sholat App</string>
+</resources>
