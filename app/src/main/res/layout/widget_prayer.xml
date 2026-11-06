@@ -3,6 +3,7 @@
      badge hitung mundur berbentuk pill. Sebelumnya 4 baris teks rata kiri tanpa pembeda ukuran
      yang tegas dan latar flat solid; sekarang lebih jelas mana yang utama dilihat sekilas. -->
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/widget_root"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
@@ -50,16 +51,36 @@
 
     </LinearLayout>
 
+    <!-- Hitung mundur: Chronometer berdetak sendiri di launcher (API 24+), jadi angkanya selalu
+         tepat tanpa widget perlu disegarkan tiap menit. TextView di bawahnya hanya cadangan untuk
+         Android < 7 (Chronometer belum bisa mundur) — salah satunya disembunyikan dari kode. -->
+    <Chronometer
+        android:id="@+id/widget_prayer_chrono"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:background="@drawable/widget_countdown_pill"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
+        android:paddingTop="4dp"
+        android:paddingBottom="4dp"
+        android:textColor="@android:color/white"
+        android:textSize="11sp"
+        android:visibility="gone" />
+
     <TextView
         android:id="@+id/widget_prayer_countdown"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
         android:background="@drawable/widget_countdown_pill"
-        android:paddingHorizontal="10dp"
-        android:paddingVertical="4dp"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
+        android:paddingTop="4dp"
+        android:paddingBottom="4dp"
         android:text=""
         android:textColor="@android:color/white"
-        android:textSize="11sp" />
+        android:textSize="11sp"
+        android:visibility="gone" />
 
 </LinearLayout>

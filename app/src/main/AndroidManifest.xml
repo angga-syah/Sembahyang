@@ -10,7 +10,14 @@
 
     <!-- Notifikasi adzan. -->
     <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
-    <uses-permission android:name="android.permission.SCHEDULE_EXACT_ALARM" />
+    <!-- Android 12: SCHEDULE_EXACT_ALARM (diberikan otomatis). Android 13+: izin itu default DITOLAK
+         untuk instalasi baru, sehingga adzan & pergantian waktu di widget bisa telat hingga 10 menit.
+         USE_EXACT_ALARM otomatis diberikan di 13+. Catatan: Play Store membatasi USE_EXACT_ALARM
+         untuk app alarm/kalender — app ini didistribusikan sebagai APK langsung. -->
+    <uses-permission
+        android:name="android.permission.SCHEDULE_EXACT_ALARM"
+        android:maxSdkVersion="32" />
+    <uses-permission android:name="android.permission.USE_EXACT_ALARM" />
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
 
     <!-- Meminta pengecualian penghemat baterai: tanpa itu Android boleh menghentikan
@@ -89,6 +96,9 @@
             android:exported="false">
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+                <!-- Hitung mundur widget berpatokan ke jam dinding; segarkan saat jam/zona diubah. -->
+                <action android:name="android.intent.action.TIME_SET" />
+                <action android:name="android.intent.action.TIMEZONE_CHANGED" />
             </intent-filter>
             <meta-data
                 android:name="android.appwidget.provider"

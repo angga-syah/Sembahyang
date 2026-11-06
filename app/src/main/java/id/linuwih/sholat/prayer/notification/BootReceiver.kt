@@ -3,6 +3,7 @@ package id.linuwih.sholat.prayer.notification
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
+import id.linuwih.sholat.prayer.widget.PrayerWidgetProvider
 
 /**
  * Alarm AlarmManager hilang setelah reboot — jadwalkan ulang dari lokasi terakhir tersimpan.
@@ -19,7 +20,11 @@ class BootReceiver : BroadcastReceiver() {
             Intent.ACTION_LOCKED_BOOT_COMPLETED,
             "android.intent.action.QUICKBOOT_POWERON",
             "com.htc.intent.action.QUICKBOOT_POWERON",
-            -> PrayerAlarmScheduler.scheduleForToday(context)
+            -> {
+                PrayerAlarmScheduler.scheduleForToday(context)
+                // Hitung mundur widget berbasis elapsedRealtime yang kembali ke nol saat reboot.
+                PrayerWidgetProvider.updateAll(context)
+            }
         }
     }
 }
