@@ -12,11 +12,14 @@ import id.linuwih.sholat.quran.audio.PlaybackState
 import id.linuwih.sholat.quran.audio.Reciter
 import id.linuwih.sholat.quran.data.Surah
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
@@ -41,6 +44,9 @@ data class HafalanSettings(
     val reciter: Reciter,
     val showTranslation: Boolean,
     val showLatin: Boolean,
+    val dailyTarget: Int,
+    val reminderHour: Int,
+    val testLevel: TestLevel,
 )
 
 data class HafalanAudioState(
@@ -50,6 +56,7 @@ data class HafalanAudioState(
     val error: String? = null,
 )
 
+@OptIn(ExperimentalCoroutinesApi::class)
 class HafalanViewModel(application: Application) : AndroidViewModel(application) {
 
     private val dao = HafalanDatabase.getInstance(application).dao()
@@ -75,6 +82,27 @@ class HafalanViewModel(application: Application) : AndroidViewModel(application)
 
     val playback: StateFlow<PlaybackSnapshot> = PlaybackState.snapshot
 
+    /** Hari ini (epoch day). Disegarkan tiap layar hafalan dibuka supaya lewat tengah malam ikut. */
+    private val _today = MutableStateFlow(todayEpochDay())
+    val today: StateFlow<Long> = _today.asStateFlow()
+
+    fun refreshDay() {
+        _today.value = todayEpochDay()
+    }
+
+    /** Jumlah ayat jatuh tempo murajaah per surah. */
+    val dueCounts: StateFlow<Map<Int, Int>> = _today
+        .flatMapLatest { day -> dao.observeDueCounts(day) }
+        .map { list -> list.associate { it.surahNumber to it.count } }
+        .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5_000), emptyMap())
+
+    val memorizedToday: StateFlow<Int> = _today
+        .flatMapLatest { day -> dao.observeMemorizedOn(day) }
+        .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5_000), 0)
+
+    val streak: StateFlow<Int> = combine(dao.observeDays(), _today) { days, day -> streakFrom(days, day) }
+        .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5_000), 0)
+
     fun setScope(scope: HafalanScope) {
         prefs.scope = scope
         _scope.value = scope
@@ -93,7 +121,20 @@ class HafalanViewModel(application: Application) : AndroidViewModel(application)
         viewModelScope.launch {
             if (memorized) {
                 val now = System.currentTimeMillis()
-                dao.insertAll(ayahs.map { HafalanAyahEntity(surah, it, now) })
+                val day = todayEpochDay()
+                dao.insertAll(
+                    ayahs.map {
+                        HafalanAyahEntity(
+                            surahNumber = surah,
+                            ayahNumber = it,
+                            memorizedAt = now,
+                            memorizedDay = day,
+                            reviewStage = 0,
+                            nextReviewDay = day + REVIEW_INTERVAL_DAYS.first(),
+                        )
+                    },
+                )
+                dao.markDay(HafalanDayEntity(day))
             } else {
                 dao.delete(surah, ayahs.toList())
             }
@@ -116,6 +157,37 @@ class HafalanViewModel(application: Application) : AndroidViewModel(application)
     }
 
     fun rememberRange(surah: Int, range: IntRange) = prefs.setLastRange(surah, range)
+
+    /** Rentang yang mencakup semua ayat jatuh tempo murajaah di surah ini (null = tidak ada). */
+    suspend fun dueRange(surah: Int): IntRange? {
+        val due = dao.dueAyahs(surah, todayEpochDay())
+        if (due.isEmpty()) return null
+        return due.first().ayahNumber..due.last().ayahNumber
+    }
+
+    /**
+     * Nilai hasil murajaah satu rentang. Yang dinilai: ayat hafal di rentang itu yang jatuh tempo;
+     * kalau tidak ada yang jatuh tempo (murajaah di luar jadwal), semua ayat hafal di rentang itu.
+     */
+    fun rate(surah: Int, range: IntRange, rating: ReviewRating) {
+        viewModelScope.launch {
+            val day = todayEpochDay()
+            val inRange = dao.get(surah, range.toList())
+            if (inRange.isEmpty()) return@launch
+            val due = inRange.filter { it.nextReviewDay <= day }
+            dao.updateAll((due.ifEmpty { inRange }).map { it.reviewed(rating, day) })
+            dao.markDay(HafalanDayEntity(day))
+        }
+    }
+
+    fun setDailyTarget(value: Int) = updateSettings { prefs.dailyTarget = value }
+
+    fun setTestLevel(value: TestLevel) = updateSettings { prefs.testLevel = value }
+
+    fun setReminderHour(hour: Int) {
+        updateSettings { prefs.reminderHour = hour }
+        HafalanReminder.schedule(getApplication())
+    }
 
     fun setAyahRepeat(value: Int) = updateSettings { prefs.ayahRepeat = value }
     fun setRangeRepeat(value: Int) = updateSettings { prefs.rangeRepeat = value }
@@ -188,6 +260,9 @@ class HafalanViewModel(application: Application) : AndroidViewModel(application)
         reciter = prefs.reciterName?.let { runCatching { Reciter.valueOf(it) }.getOrNull() } ?: Reciter.ALAFASY,
         showTranslation = prefs.showTranslation,
         showLatin = prefs.showLatin,
+        dailyTarget = prefs.dailyTarget,
+        reminderHour = prefs.reminderHour,
+        testLevel = prefs.testLevel,
     )
 
     companion object {

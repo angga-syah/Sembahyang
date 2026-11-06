@@ -4,6 +4,7 @@ import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import id.linuwih.sholat.prayer.widget.PrayerWidgetProvider
+import id.linuwih.sholat.quran.hafalan.HafalanReminder
 
 /**
  * Alarm AlarmManager hilang setelah reboot — jadwalkan ulang dari lokasi terakhir tersimpan.
@@ -24,6 +25,7 @@ class BootReceiver : BroadcastReceiver() {
                 PrayerAlarmScheduler.scheduleForToday(context)
                 // Hitung mundur widget berbasis elapsedRealtime yang kembali ke nol saat reboot.
                 PrayerWidgetProvider.updateAll(context)
+                HafalanReminder.schedule(context)
             }
         }
     }

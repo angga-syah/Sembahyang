@@ -92,6 +92,10 @@
         </receiver>
 
         <receiver
+            android:name=".quran.hafalan.HafalanReminderReceiver"
+            android:exported="false" />
+
+        <receiver
             android:name=".prayer.widget.PrayerWidgetProvider"
             android:exported="false">
             <intent-filter>

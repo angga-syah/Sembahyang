@@ -27,9 +27,12 @@ import androidx.compose.material.icons.filled.Pause
 import androidx.compose.material.icons.filled.PlayArrow
 import androidx.compose.material.icons.filled.Remove
 import androidx.compose.material.icons.filled.Stop
+import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material.icons.filled.SwapVert
 import androidx.compose.material.icons.outlined.Circle
+import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
+import androidx.compose.material3.TextButton
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FilledIconButton
@@ -68,7 +71,11 @@ import id.linuwih.sholat.quran.hafalan.HafalanScope
 import id.linuwih.sholat.quran.hafalan.HafalanViewModel
 import id.linuwih.sholat.quran.hafalan.JUZ_AMMA_FIRST_SURAH
 import id.linuwih.sholat.quran.hafalan.RANGE_REPEAT_OPTIONS
+import id.linuwih.sholat.quran.hafalan.REMINDER_HOUR_OPTIONS
 import id.linuwih.sholat.quran.hafalan.RepeatGap
+import id.linuwih.sholat.quran.hafalan.ReviewRating
+import id.linuwih.sholat.quran.hafalan.TestLevel
+import id.linuwih.sholat.quran.hafalan.DAILY_TARGET_OPTIONS
 import id.linuwih.sholat.quran.hafalan.SPEED_OPTIONS
 import id.linuwih.sholat.quran.hafalan.SurahHafalanStatus
 import id.linuwih.sholat.quran.hafalan.SurahProgress
@@ -84,12 +91,19 @@ fun HafalanHomeScreen(
     quranViewModel: QuranViewModel,
     viewModel: HafalanViewModel,
     onBack: () -> Unit,
-    onOpenSurah: (Int) -> Unit,
+    onOpenSurah: (surah: Int, review: Boolean) -> Unit,
 ) {
     val surahs by quranViewModel.surahs.collectAsState()
     val counts by viewModel.memorizedCounts.collectAsState()
     val scope by viewModel.scope.collectAsState()
     val fromEnd by viewModel.juzAmmaFromEnd.collectAsState()
+    val dueCounts by viewModel.dueCounts.collectAsState()
+    val memorizedToday by viewModel.memorizedToday.collectAsState()
+    val streak by viewModel.streak.collectAsState()
+    val today by viewModel.today.collectAsState()
+    val settings by viewModel.settings.collectAsState()
+    var showSettings by remember { mutableStateOf(false) }
+    LaunchedEffect(Unit) { viewModel.refreshDay() }
 
     val progress = remember(surahs, counts, scope, fromEnd) {
         val inScope = surahs.filter { scope == HafalanScope.SEMUA || it.number >= JUZ_AMMA_FIRST_SURAH }
@@ -99,6 +113,10 @@ fun HafalanHomeScreen(
     val totalAyahs = progress.sumOf { it.surah.totalVerses }
     val memorizedAyahs = progress.sumOf { minOf(it.memorized, it.surah.totalVerses) }
     val memorizedSurahs = progress.count { it.status == SurahHafalanStatus.HAFAL }
+    // Murajaah mencakup semua surah yang pernah dihafal, tidak terbatas cakupan yang dipilih.
+    val dueSurahs = remember(surahs, dueCounts) {
+        surahs.filter { (dueCounts[it.number] ?: 0) > 0 }.map { it to (dueCounts[it.number] ?: 0) }
+    }
 
     Scaffold(
         topBar = {
@@ -115,6 +133,9 @@ fun HafalanHomeScreen(
                             Icon(Icons.Filled.SwapVert, contentDescription = stringResource(R.string.hafalan_toggle_order))
                         }
                     }
+                    IconButton(onClick = { showSettings = true }) {
+                        Icon(Icons.Filled.Settings, contentDescription = stringResource(R.string.hafalan_settings))
+                    }
                 },
             )
         },
@@ -123,7 +144,27 @@ fun HafalanHomeScreen(
             Box(Modifier.fillMaxSize().padding(padding), contentAlignment = Alignment.Center) { CircularProgressIndicator() }
             return@Scaffold
         }
+        if (showSettings) {
+            HafalanSettingsDialog(
+                dailyTarget = settings.dailyTarget,
+                reminderHour = settings.reminderHour,
+                onDailyTarget = viewModel::setDailyTarget,
+                onReminderHour = viewModel::setReminderHour,
+                onDismiss = { showSettings = false },
+            )
+        }
         LazyColumn(modifier = Modifier.fillMaxSize().padding(padding)) {
+            item {
+                TodayCard(
+                    memorizedToday = memorizedToday,
+                    dailyTarget = settings.dailyTarget,
+                    streak = streak,
+                    remainingAyahs = totalAyahs - memorizedAyahs,
+                    today = today,
+                    dueSurahs = dueSurahs,
+                    onReview = { onOpenSurah(it, true) },
+                )
+            }
             item {
                 Row(
                     modifier = Modifier.fillMaxWidth().padding(horizontal = 16.dp, vertical = 4.dp),
@@ -165,7 +206,7 @@ fun HafalanHomeScreen(
                 }
             }
             items(progress, key = { it.surah.number }) { item ->
-                HafalanSurahRow(item, onClick = { onOpenSurah(item.surah.number) })
+                HafalanSurahRow(item, onClick = { onOpenSurah(item.surah.number, false) })
                 HorizontalDivider(
                     modifier = Modifier.padding(start = 60.dp),
                     thickness = 0.5.dp,
@@ -174,6 +215,139 @@ fun HafalanHomeScreen(
             }
         }
     }
+}
+
+@Composable
+private fun TodayCard(
+    memorizedToday: Int,
+    dailyTarget: Int,
+    streak: Int,
+    remainingAyahs: Int,
+    today: Long,
+    dueSurahs: List<Pair<Surah, Int>>,
+    onReview: (Int) -> Unit,
+) {
+    Surface(
+        shape = MaterialTheme.shapes.large,
+        color = MaterialTheme.colorScheme.secondaryContainer.copy(alpha = 0.5f),
+        modifier = Modifier.fillMaxWidth().padding(horizontal = 16.dp, vertical = 8.dp),
+    ) {
+        Column(Modifier.padding(16.dp)) {
+            Text(stringResource(R.string.hafalan_today), style = MaterialTheme.typography.labelLarge)
+            Spacer(Modifier.height(8.dp))
+            Row(verticalAlignment = Alignment.CenterVertically) {
+                Column(Modifier.weight(1f)) {
+                    Text(
+                        stringResource(R.string.hafalan_today_new, minOf(memorizedToday, 999), dailyTarget),
+                        style = MaterialTheme.typography.titleMedium,
+                    )
+                    LinearProgressIndicator(
+                        progress = { (memorizedToday.toFloat() / dailyTarget).coerceAtMost(1f) },
+                        modifier = Modifier.fillMaxWidth(0.9f).padding(top = 4.dp),
+                    )
+                }
+                Column(horizontalAlignment = Alignment.End) {
+                    Text(
+                        pluralStreak(streak),
+                        style = MaterialTheme.typography.titleMedium,
+                        color = MaterialTheme.colorScheme.primary,
+                    )
+                    Text(
+                        stringResource(R.string.hafalan_streak_label),
+                        style = MaterialTheme.typography.labelSmall,
+                        color = MaterialTheme.colorScheme.onSurfaceVariant,
+                    )
+                }
+            }
+            if (remainingAyahs > 0) {
+                val days = (remainingAyahs + dailyTarget - 1) / dailyTarget
+                val finish = remember(today, days) {
+                    java.time.LocalDate.ofEpochDay(today + days - 1)
+                        .format(java.time.format.DateTimeFormatter.ofPattern("d MMM yyyy", java.util.Locale.getDefault()))
+                }
+                Spacer(Modifier.height(6.dp))
+                Text(
+                    stringResource(R.string.hafalan_estimate, finish),
+                    style = MaterialTheme.typography.bodySmall,
+                    color = MaterialTheme.colorScheme.onSurfaceVariant,
+                )
+            }
+            Spacer(Modifier.height(12.dp))
+            HorizontalDivider(color = MaterialTheme.colorScheme.outlineVariant.copy(alpha = 0.6f))
+            Spacer(Modifier.height(8.dp))
+            if (dueSurahs.isEmpty()) {
+                Text(
+                    stringResource(R.string.hafalan_review_none),
+                    style = MaterialTheme.typography.bodyMedium,
+                    color = MaterialTheme.colorScheme.onSurfaceVariant,
+                )
+            } else {
+                Text(
+                    stringResource(R.string.hafalan_review_due, dueSurahs.sumOf { it.second }),
+                    style = MaterialTheme.typography.titleSmall,
+                )
+                dueSurahs.forEach { (surah, count) ->
+                    Row(
+                        modifier = Modifier.fillMaxWidth().clickable { onReview(surah.number) }.padding(vertical = 8.dp),
+                        verticalAlignment = Alignment.CenterVertically,
+                    ) {
+                        Text(surah.transliteration, style = MaterialTheme.typography.bodyLarge, modifier = Modifier.weight(1f))
+                        Text(
+                            stringResource(R.string.hafalan_review_count, count),
+                            style = MaterialTheme.typography.bodySmall,
+                            color = MaterialTheme.colorScheme.onSurfaceVariant,
+                        )
+                        Icon(Icons.AutoMirrored.Filled.NavigateNext, contentDescription = null, tint = MaterialTheme.colorScheme.primary)
+                    }
+                }
+            }
+        }
+    }
+}
+
+@Composable
+private fun pluralStreak(streak: Int): String = stringResource(R.string.hafalan_streak_days, streak)
+
+@Composable
+private fun HafalanSettingsDialog(
+    dailyTarget: Int,
+    reminderHour: Int,
+    onDailyTarget: (Int) -> Unit,
+    onReminderHour: (Int) -> Unit,
+    onDismiss: () -> Unit,
+) {
+    AlertDialog(
+        onDismissRequest = onDismiss,
+        confirmButton = { TextButton(onClick = onDismiss) { Text(stringResource(R.string.hafalan_done)) } },
+        title = { Text(stringResource(R.string.hafalan_settings)) },
+        text = {
+            Column {
+                CompactSelector(
+                    label = stringResource(R.string.hafalan_daily_target),
+                    selected = dailyTarget,
+                    options = DAILY_TARGET_OPTIONS,
+                    optionLabel = { stringResource(R.string.hafalan_daily_target_value, it) },
+                    onSelected = onDailyTarget,
+                    modifier = Modifier.fillMaxWidth(),
+                )
+                CompactSelector(
+                    label = stringResource(R.string.hafalan_reminder),
+                    selected = reminderHour,
+                    options = listOf(-1) + REMINDER_HOUR_OPTIONS,
+                    optionLabel = {
+                        if (it < 0) stringResource(R.string.hafalan_reminder_off) else "%02d:00".format(it)
+                    },
+                    onSelected = onReminderHour,
+                    modifier = Modifier.fillMaxWidth(),
+                )
+                Text(
+                    stringResource(R.string.hafalan_reminder_hint),
+                    style = MaterialTheme.typography.bodySmall,
+                    color = MaterialTheme.colorScheme.onSurfaceVariant,
+                )
+            }
+        },
+    )
 }
 
 @Composable
@@ -246,6 +420,7 @@ private const val SESSION_HEADER_ITEMS = 1
 @Composable
 fun HafalanSessionScreen(
     surahNumber: Int,
+    review: Boolean,
     quranViewModel: QuranViewModel,
     viewModel: HafalanViewModel,
     onBack: () -> Unit,
@@ -262,10 +437,15 @@ fun HafalanSessionScreen(
     val playback by viewModel.playback.collectAsState()
 
     var range by remember(surahNumber) { mutableStateOf<IntRange?>(null) }
+    // Mode murajaah: rentang = ayat yang jatuh tempo, dan teks langsung disembunyikan (mode uji).
+    var testMode by remember(surahNumber) { mutableStateOf(review) }
+    var ratedMessage by remember(surahNumber) { mutableStateOf<String?>(null) }
     LaunchedEffect(surah, memorized) {
         val s = surah ?: return@LaunchedEffect
         val m = memorized ?: return@LaunchedEffect
-        if (range == null) range = viewModel.initialRange(s, m)
+        if (range == null) {
+            range = (if (review) viewModel.dueRange(surahNumber) else null) ?: viewModel.initialRange(s, m)
+        }
     }
     LaunchedEffect(surah, settings.reciter) { surah?.let { viewModel.checkAudio(it) } }
 
@@ -283,7 +463,12 @@ fun HafalanSessionScreen(
     Scaffold(
         topBar = {
             TopAppBar(
-                title = { Text(surah?.transliteration ?: stringResource(R.string.quran_surah_fallback, surahNumber)) },
+                title = {
+                    Text(
+                        (surah?.transliteration ?: stringResource(R.string.quran_surah_fallback, surahNumber)) +
+                            if (review) " · " + stringResource(R.string.hafalan_review_title) else "",
+                    )
+                },
                 navigationIcon = {
                     IconButton(onClick = onBack) {
                         Icon(Icons.AutoMirrored.Filled.ArrowBack, contentDescription = stringResource(R.string.action_back))
@@ -413,6 +598,32 @@ fun HafalanSessionScreen(
                         onClick = { viewModel.setShowLatin(!settings.showLatin) },
                         label = { Text(stringResource(R.string.hafalan_show_latin)) },
                     )
+                    FilterChip(
+                        selected = testMode,
+                        onClick = { testMode = !testMode },
+                        label = { Text(stringResource(R.string.hafalan_test_mode)) },
+                    )
+                }
+                if (testMode) {
+                    Row(
+                        modifier = Modifier.fillMaxWidth().padding(horizontal = 16.dp),
+                        verticalAlignment = Alignment.CenterVertically,
+                    ) {
+                        CompactSelector(
+                            label = stringResource(R.string.hafalan_test_level),
+                            selected = settings.testLevel,
+                            options = TestLevel.entries,
+                            optionLabel = { testLevelLabel(it) },
+                            onSelected = viewModel::setTestLevel,
+                            modifier = Modifier.weight(1f),
+                        )
+                    }
+                    Text(
+                        stringResource(R.string.hafalan_test_hint),
+                        style = MaterialTheme.typography.bodySmall,
+                        color = MaterialTheme.colorScheme.onSurfaceVariant,
+                        modifier = Modifier.padding(horizontal = 16.dp, vertical = 4.dp),
+                    )
                 }
             }
             val rangeAyahs = list.filter { it.number in currentRange }
@@ -423,6 +634,7 @@ fun HafalanSessionScreen(
                     showTranslation = settings.showTranslation,
                     showLatin = settings.showLatin,
                     highlighted = session?.position?.ayah == ayah.number,
+                    testLevel = settings.testLevel.takeIf { testMode },
                     memorized = ayah.number in mem,
                     onToggleMemorized = { viewModel.setMemorized(surahNumber, listOf(ayah.number), ayah.number !in mem) },
                 )
@@ -434,7 +646,17 @@ fun HafalanSessionScreen(
             }
             item {
                 val allMemorized = currentRange.all { it in mem }
+                val anyMemorized = currentRange.any { it in mem }
                 Column(Modifier.fillMaxWidth().padding(16.dp), verticalArrangement = Arrangement.spacedBy(8.dp)) {
+                    if (anyMemorized) {
+                        RatingSection(
+                            message = ratedMessage,
+                            onRate = { rating ->
+                                viewModel.rate(surahNumber, currentRange, rating)
+                                if (review) onBack() else ratedMessage = rating.name
+                            },
+                        )
+                    }
                     if (!allMemorized) {
                         Button(
                             onClick = { viewModel.setMemorized(surahNumber, currentRange.toList(), true) },
@@ -570,6 +792,7 @@ private fun HafalanAyahRow(
     showTranslation: Boolean,
     showLatin: Boolean,
     highlighted: Boolean,
+    testLevel: TestLevel?,
     memorized: Boolean,
     onToggleMemorized: () -> Unit,
 ) {
@@ -628,17 +851,35 @@ private fun HafalanAyahRow(
                     plainColor = plainColor,
                 )
             }
-            Text(
-                arabicText,
-                style = arabicBase.copy(
-                    fontSize = arabicFontSize,
-                    lineHeight = arabicFontSize * 1.9f,
-                    fontFamily = arabicFont.toFontFamily(mushafStyle),
-                ),
-                textAlign = TextAlign.End,
-                modifier = Modifier.fillMaxWidth(),
+            val arabicStyle = arabicBase.copy(
+                fontSize = arabicFontSize,
+                lineHeight = arabicFontSize * 1.9f,
+                fontFamily = arabicFont.toFontFamily(mushafStyle),
             )
-            if (showLatin) {
+            val words = remember(ayah.arabicTextTajweed) { splitArabicWords(ayah.arabicTextTajweed) }
+            val letterWords = words.count { it.hasLetter }
+            val minRevealed = if (testLevel == TestLevel.TERSEMBUNYI) 1 else 0
+            var revealed by remember(ayah.number, testLevel) { mutableStateOf(minRevealed) }
+            val fullyShown = testLevel == null || revealed >= letterWords
+            if (fullyShown) {
+                Text(arabicText, style = arabicStyle, textAlign = TextAlign.End, modifier = Modifier.fillMaxWidth())
+            } else {
+                val hiddenColor = MaterialTheme.colorScheme.outline
+                val masked = remember(words, testLevel, revealed, plainColor, hiddenColor) {
+                    maskedAyah(words, testLevel!!, revealed, plainColor, hiddenColor)
+                }
+                Text(
+                    masked,
+                    style = arabicStyle,
+                    textAlign = TextAlign.End,
+                    modifier = Modifier.fillMaxWidth().clickable { revealed++ },
+                )
+                Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.End) {
+                    TextButton(onClick = { revealed++ }) { Text(stringResource(R.string.hafalan_reveal_word)) }
+                    TextButton(onClick = { revealed = letterWords }) { Text(stringResource(R.string.hafalan_reveal_all)) }
+                }
+            }
+            if (showLatin && fullyShown) {
                 ayah.latinText(latinStyle)?.let {
                     Spacer(Modifier.height(8.dp))
                     Text(it, style = MaterialTheme.typography.bodyMedium, fontStyle = FontStyle.Italic, color = MaterialTheme.colorScheme.tertiary)
@@ -666,3 +907,124 @@ private fun gapLabel(gap: RepeatGap): String = stringResource(
         RepeatGap.SATU_SETENGAH -> R.string.hafalan_gap_15x
     },
 )
+
+@Composable
+private fun testLevelLabel(level: TestLevel): String = stringResource(
+    when (level) {
+        TestLevel.HURUF_AWAL -> R.string.hafalan_test_first_letter
+        TestLevel.TERSEMBUNYI -> R.string.hafalan_test_hidden
+    },
+)
+
+@Composable
+private fun RatingSection(message: String?, onRate: (ReviewRating) -> Unit) {
+    Surface(
+        shape = MaterialTheme.shapes.large,
+        color = MaterialTheme.colorScheme.surfaceVariant.copy(alpha = 0.6f),
+        modifier = Modifier.fillMaxWidth(),
+    ) {
+        Column(Modifier.padding(12.dp)) {
+            Text(stringResource(R.string.hafalan_rate_question), style = MaterialTheme.typography.titleSmall)
+            Spacer(Modifier.height(8.dp))
+            Row(horizontalArrangement = Arrangement.spacedBy(8.dp), modifier = Modifier.fillMaxWidth()) {
+                Button(onClick = { onRate(ReviewRating.LANCAR) }, modifier = Modifier.weight(1f)) {
+                    Text(stringResource(R.string.hafalan_rate_good))
+                }
+                OutlinedButton(onClick = { onRate(ReviewRating.RAGU) }, modifier = Modifier.weight(1f)) {
+                    Text(stringResource(R.string.hafalan_rate_unsure))
+                }
+                OutlinedButton(onClick = { onRate(ReviewRating.LUPA) }, modifier = Modifier.weight(1f)) {
+                    Text(stringResource(R.string.hafalan_rate_forgot))
+                }
+            }
+            if (message != null) {
+                Spacer(Modifier.height(6.dp))
+                Text(
+                    stringResource(R.string.hafalan_rate_saved),
+                    style = MaterialTheme.typography.bodySmall,
+                    color = MaterialTheme.colorScheme.primary,
+                )
+            }
+        }
+    }
+}
+
+/** Satu token teks ayat. Token tanpa huruf (tanda waqaf, nomor) selalu ditampilkan. */
+internal data class ArabicWord(val text: String, val hasLetter: Boolean)
+
+internal fun splitArabicWords(text: String): List<ArabicWord> =
+    text.split(' ').filter { it.isNotEmpty() }.map { word ->
+        ArabicWord(word, letterCount(word) > 0)
+    }
+
+/** Jumlah huruf (bukan harakat/tanda) dalam kata. Loop manual: String.codePoints() butuh API 24. */
+internal fun letterCount(word: String): Int {
+    var count = 0
+    var i = 0
+    while (i < word.length) {
+        val cp = word.codePointAt(i)
+        if (Character.isLetter(cp)) count++
+        i += Character.charCount(cp)
+    }
+    return count
+}
+
+/** Huruf pertama sebuah kata beserta harakat yang menempel padanya. */
+internal fun firstLetterCluster(word: String): String {
+    val sb = StringBuilder()
+    var i = 0
+    var seenLetter = false
+    while (i < word.length) {
+        val cp = word.codePointAt(i)
+        val type = Character.getType(cp)
+        val isMark = type == Character.NON_SPACING_MARK.toInt() || type == Character.ENCLOSING_MARK.toInt()
+        if (seenLetter && !isMark) break
+        sb.appendCodePoint(cp)
+        if (Character.isLetter(cp)) seenLetter = true
+        i += Character.charCount(cp)
+    }
+    return sb.toString()
+}
+
+private const val TATWEEL = '\u0640'
+
+/**
+ * Teks ayat dengan kata yang belum dibuka disamarkan: HURUF_AWAL menyisakan huruf pertama +
+ * garis (tatweel), TERSEMBUNYI menggantinya dengan garis sepanjang kira-kira kata aslinya.
+ */
+internal fun maskedAyah(
+    words: List<ArabicWord>,
+    level: TestLevel,
+    revealed: Int,
+    shownColor: androidx.compose.ui.graphics.Color,
+    hiddenColor: androidx.compose.ui.graphics.Color,
+): androidx.compose.ui.text.AnnotatedString = androidx.compose.ui.text.buildAnnotatedString {
+    var letterIndex = 0
+    words.forEachIndexed { i, word ->
+        if (i > 0) append(' ')
+        if (!word.hasLetter) {
+            pushStyle(androidx.compose.ui.text.SpanStyle(color = hiddenColor))
+            append(word.text)
+            pop()
+            return@forEachIndexed
+        }
+        val show = letterIndex < revealed
+        letterIndex++
+        if (show) {
+            pushStyle(androidx.compose.ui.text.SpanStyle(color = shownColor))
+            append(word.text)
+            pop()
+        } else {
+            pushStyle(androidx.compose.ui.text.SpanStyle(color = hiddenColor))
+            val letters = letterCount(word.text)
+            when (level) {
+                TestLevel.HURUF_AWAL -> {
+                    append(firstLetterCluster(word.text))
+                    append(TATWEEL.toString().repeat((letters - 1).coerceIn(1, 4)))
+                }
+                TestLevel.TERSEMBUNYI -> append(TATWEEL.toString().repeat(letters.coerceIn(2, 7)))
+            }
+            pop()
+        }
+    }
+}

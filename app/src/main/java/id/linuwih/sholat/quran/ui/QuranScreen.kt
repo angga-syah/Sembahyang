@@ -116,15 +116,19 @@ fun QuranScreen(
                 quranViewModel = viewModel,
                 viewModel = hafalanViewModel,
                 onBack = { navController.popBackStack() },
-                onOpenSurah = { number -> navController.navigate("hafalan/$number") },
+                onOpenSurah = { number, review -> navController.navigate("hafalan/$number?review=$review") },
             )
         }
         composable(
-            route = "hafalan/{number}",
-            arguments = listOf(navArgument("number") { type = NavType.IntType }),
+            route = "hafalan/{number}?review={review}",
+            arguments = listOf(
+                navArgument("number") { type = NavType.IntType },
+                navArgument("review") { type = NavType.BoolType; defaultValue = false },
+            ),
         ) { backStackEntry ->
             HafalanSessionScreen(
                 surahNumber = backStackEntry.arguments?.getInt("number") ?: 1,
+                review = backStackEntry.arguments?.getBoolean("review") ?: false,
                 quranViewModel = viewModel,
                 viewModel = hafalanViewModel,
                 onBack = { navController.popBackStack() },
