@@ -77,6 +77,7 @@ fun AboutScreen(onBack: () -> Unit) {
                 style = MaterialTheme.typography.bodyMedium,
                 modifier = Modifier.padding(top = 4.dp, bottom = 12.dp),
             )
+            id.linuwih.sholat.update.UpdateSection()
 
             val context = androidx.compose.ui.platform.LocalContext.current
             val feedbackSubject = stringResource(R.string.about_feedback_email_subject)
@@ -158,6 +159,7 @@ fun AboutScreen(onBack: () -> Unit) {
                 SourceEntry(stringResource(R.string.about_perm_boot_title), stringResource(R.string.about_perm_boot_detail))
                 SourceEntry(stringResource(R.string.about_perm_vibrate_title), stringResource(R.string.about_perm_vibrate_detail))
                 SourceEntry(stringResource(R.string.about_perm_internet_title), stringResource(R.string.about_perm_internet_detail))
+                SourceEntry(stringResource(R.string.about_perm_install_title), stringResource(R.string.about_perm_install_detail))
                 SourceEntry(stringResource(R.string.about_perm_none_title), stringResource(R.string.about_perm_none_detail))
             }
 

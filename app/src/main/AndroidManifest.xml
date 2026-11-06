@@ -8,6 +8,10 @@
     <!-- Hanya dipakai fitur download audio murottal on-demand (lihat plan: satu-satunya fitur yang butuh internet). -->
     <uses-permission android:name="android.permission.INTERNET" />
 
+    <!-- Memasang pembaruan aplikasi yang diunduh dari GitHub Releases (selalu lewat layar
+         konfirmasi penginstal Android; user harus mengizinkannya sekali). -->
+    <uses-permission android:name="android.permission.REQUEST_INSTALL_PACKAGES" />
+
     <!-- Notifikasi adzan. -->
     <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
     <!-- Android 12: SCHEDULE_EXACT_ALARM (diberikan otomatis). Android 13+: izin itu default DITOLAK

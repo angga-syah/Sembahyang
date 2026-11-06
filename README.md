@@ -72,8 +72,16 @@ app/src/test/            # unit test
 ## Ketergantungan eksternal
 
 Semua fitur inti (jadwal sholat, kiblat, baca Qur'an + terjemahan) berjalan **100% offline,
-tanpa server**. Satu-satunya panggilan ke pihak luar adalah download audio murottal on-demand
-dari CDN publik.
+tanpa server**. Panggilan ke pihak luar hanya dua: download audio murottal on-demand dari CDN
+publik, dan pemeriksaan pembaruan aplikasi ke GitHub Releases (sekali sehari, bisa dimatikan di
+layar Tentang).
+
+## Rilis & pembaruan otomatis
+
+Aplikasi memeriksa `releases/latest` repo ini, membandingkan `tag_name` (mis. `v0.2.0`) dengan
+`versionName` terpasang, lalu mengunduh berkas `.apk` pertama di rilis itu. Supaya pembaruan
+bisa dipasang: buat rilis dengan tag `vX.Y.Z` yang sama dengan `versionName`, naikkan
+`versionCode`, dan lampirkan APK rilis yang ditandatangani kunci yang sama.
 
 ## Kontribusi
 

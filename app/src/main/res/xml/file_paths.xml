@@ -3,4 +3,6 @@
     <!-- Hanya folder adzan custom yang dibagikan — sistem perlu membacanya untuk membunyikan
          notifikasi, tapi tidak ada alasan mengekspos berkas aplikasi yang lain. -->
     <files-path name="adhan" path="adhan/" />
+    <!-- APK pembaruan yang baru diunduh, diserahkan ke penginstal sistem. -->
+    <cache-path name="updates" path="updates/" />
 </paths>

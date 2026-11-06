@@ -26,6 +26,7 @@ import id.linuwih.sholat.ibadah.ui.IbadahScreen
 import id.linuwih.sholat.prayer.ui.PrayerScreen
 import id.linuwih.sholat.qibla.ui.QiblaScreen
 import id.linuwih.sholat.quran.ui.QuranScreen
+import id.linuwih.sholat.update.UpdateDialogHost
 import id.linuwih.sholat.util.NetworkActivity
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -71,6 +72,9 @@ fun SholatNavHost() {
                 composable(Screen.Quran.route) { QuranScreen() }
                 composable(Screen.Ibadah.route) { IbadahScreen() }
             }
+
+            // Tawaran pembaruan dari GitHub Releases — dicek sekali sehari saat aplikasi dibuka.
+            UpdateDialogHost()
 
             // Penanda transparansi: aplikasi ini mengklaim hampir seluruhnya offline, jadi saat
             // benar-benar memakai internet user berhak melihatnya langsung — bukan sekadar
