@@ -36,6 +36,7 @@ import kotlinx.coroutines.launch
 class AudioPlaybackService : Service() {
 
     private val player = AyahAudioPlayer()
+    private val hafalanPlayer = RepeatingAyahPlayer()
     private val scope = CoroutineScope(SupervisorJob() + Dispatchers.Main)
     private lateinit var audioRepository: AudioRepository
     private lateinit var quranRepository: QuranRepository
@@ -64,6 +65,21 @@ class AudioPlaybackService : Service() {
                 } ?: Reciter.ALAFASY
                 startPlayback(surah, reciter)
             }
+            ACTION_PLAY_HAFALAN -> {
+                val reciter = intent.getStringExtra(EXTRA_RECITER)?.let { name ->
+                    runCatching { Reciter.valueOf(name) }.getOrNull()
+                } ?: Reciter.ALAFASY
+                val plan = HafalanPlan(
+                    surah = intent.getIntExtra(EXTRA_SURAH, 0),
+                    fromAyah = intent.getIntExtra(EXTRA_FROM, 1),
+                    toAyah = intent.getIntExtra(EXTRA_TO, 1),
+                    ayahRepeat = intent.getIntExtra(EXTRA_AYAH_REPEAT, 1).coerceAtLeast(1),
+                    rangeRepeat = intent.getIntExtra(EXTRA_RANGE_REPEAT, 1).coerceAtLeast(0),
+                    gapFactor = intent.getFloatExtra(EXTRA_GAP, 0f),
+                    speed = intent.getFloatExtra(EXTRA_SPEED, 1f),
+                )
+                startHafalan(plan, reciter)
+            }
             ACTION_TOGGLE -> togglePause()
             ACTION_STOP -> stopEverything()
             else -> stopEverything()
@@ -72,6 +88,7 @@ class AudioPlaybackService : Service() {
     }
 
     private fun startPlayback(surahNumber: Int, reciter: Reciter) {
+        hafalanPlayer.stop()
         scope.launch {
             if (surahs.isEmpty()) surahs = quranRepository.getSurahs()
             val surah = surahs.find { it.number == surahNumber } ?: return@launch stopEverything()
@@ -79,7 +96,7 @@ class AudioPlaybackService : Service() {
             currentSurah = surahNumber
             currentReciter = reciter
             PlaybackState.update {
-                it.copy(reciter = reciter, surah = surahNumber, ayah = 1, isPlaying = true, isActive = true)
+                it.copy(reciter = reciter, surah = surahNumber, ayah = 1, isPlaying = true, isActive = true, hafalan = null)
             }
             promoteToForeground()
 
@@ -93,6 +110,40 @@ class AudioPlaybackService : Service() {
                 onFinished = { continueOrStop(surahNumber) },
             )
         }
+    }
+
+    /**
+     * Sesi hafalan: satu rentang ayat diulang sesuai rencana, lalu berhenti — tidak pernah
+     * lanjut ke surah berikutnya seperti murottal biasa.
+     */
+    private fun startHafalan(plan: HafalanPlan, reciter: Reciter) {
+        player.stop()
+        currentSurah = plan.surah
+        currentReciter = reciter
+        val start = HafalanPosition(plan.fromAyah, 1, 1, inGap = false)
+        PlaybackState.update {
+            it.copy(
+                reciter = reciter,
+                surah = plan.surah,
+                ayah = plan.fromAyah,
+                isPlaying = true,
+                isActive = true,
+                hafalan = HafalanSession(plan, start),
+            )
+        }
+        promoteToForeground()
+        scope.launch { if (surahs.isEmpty()) surahs = quranRepository.getSurahs() }
+        hafalanPlayer.start(
+            plan = plan,
+            fileFor = { ayah -> audioRepository.localFile(reciter, plan.surah, ayah) },
+            onPosition = { position ->
+                PlaybackState.update {
+                    it.copy(ayah = position.ayah, hafalan = HafalanSession(plan, position))
+                }
+                updateNotification()
+            },
+            onFinished = { stopEverything() },
+        )
     }
 
     /**
@@ -118,11 +169,13 @@ class AudioPlaybackService : Service() {
     }
 
     private fun togglePause() {
-        if (player.isPlaying) {
-            player.pause()
+        val hafalanMode = PlaybackState.snapshot.value.hafalan != null
+        val playing = if (hafalanMode) hafalanPlayer.isPlaying else player.isPlaying
+        if (playing) {
+            if (hafalanMode) hafalanPlayer.pause() else player.pause()
             PlaybackState.update { it.copy(isPlaying = false) }
         } else {
-            player.resume()
+            if (hafalanMode) hafalanPlayer.resume() else player.resume()
             PlaybackState.update { it.copy(isPlaying = true) }
         }
         updateNotification()
@@ -130,6 +183,7 @@ class AudioPlaybackService : Service() {
 
     private fun stopEverything() {
         player.stop()
+        hafalanPlayer.stop()
         PlaybackState.reset()
         stopForegroundCompat()
         stopSelf()
@@ -137,6 +191,7 @@ class AudioPlaybackService : Service() {
 
     override fun onDestroy() {
         player.stop()
+        hafalanPlayer.stop()
         PlaybackState.reset()
         scope.cancel()
         super.onDestroy()
@@ -203,7 +258,7 @@ class AudioPlaybackService : Service() {
         return NotificationCompat.Builder(this, CHANNEL_ID)
             .setSmallIcon(R.drawable.ic_notification)
             .setContentTitle(surahName)
-            .setContentText(getString(R.string.quran_ayah_number_format, state.ayah ?: 1))
+            .setContentText(notificationText(state))
             .setPriority(NotificationCompat.PRIORITY_LOW)
             .setOngoing(state.isPlaying)
             .setOnlyAlertOnce(true)
@@ -215,6 +270,21 @@ class AudioPlaybackService : Service() {
             )
             .addAction(0, getString(R.string.action_stop), servicePendingIntent(ACTION_STOP, 2))
             .build()
+    }
+
+    private fun notificationText(state: PlaybackSnapshot): String {
+        val session = state.hafalan ?: return getString(R.string.quran_ayah_number_format, state.ayah ?: 1)
+        val position = session.position
+        return if (position.inGap) {
+            getString(R.string.hafalan_notif_your_turn, position.ayah)
+        } else {
+            getString(
+                R.string.hafalan_notif_playing,
+                position.ayah,
+                position.ayahRepeatIndex,
+                session.plan.ayahRepeat,
+            )
+        }
     }
 
     private fun servicePendingIntent(action: String, requestCode: Int): PendingIntent {
@@ -229,10 +299,17 @@ class AudioPlaybackService : Service() {
 
     companion object {
         const val ACTION_PLAY = "id.linuwih.sholat.PLAYBACK_PLAY"
+        const val ACTION_PLAY_HAFALAN = "id.linuwih.sholat.PLAYBACK_PLAY_HAFALAN"
         const val ACTION_TOGGLE = "id.linuwih.sholat.PLAYBACK_TOGGLE"
         const val ACTION_STOP = "id.linuwih.sholat.PLAYBACK_STOP"
         private const val EXTRA_SURAH = "surah"
         private const val EXTRA_RECITER = "reciter"
+        private const val EXTRA_FROM = "from"
+        private const val EXTRA_TO = "to"
+        private const val EXTRA_AYAH_REPEAT = "ayah_repeat"
+        private const val EXTRA_RANGE_REPEAT = "range_repeat"
+        private const val EXTRA_GAP = "gap"
+        private const val EXTRA_SPEED = "speed"
         private const val CHANNEL_ID = "quran_playback"
         private const val NOTIFICATION_ID = 3001
 
@@ -241,6 +318,21 @@ class AudioPlaybackService : Service() {
                 action = ACTION_PLAY
                 putExtra(EXTRA_SURAH, surah)
                 putExtra(EXTRA_RECITER, reciter.name)
+            }
+            ContextCompat.startForegroundService(context, intent)
+        }
+
+        fun playHafalan(context: Context, plan: HafalanPlan, reciter: Reciter) {
+            val intent = Intent(context, AudioPlaybackService::class.java).apply {
+                action = ACTION_PLAY_HAFALAN
+                putExtra(EXTRA_SURAH, plan.surah)
+                putExtra(EXTRA_RECITER, reciter.name)
+                putExtra(EXTRA_FROM, plan.fromAyah)
+                putExtra(EXTRA_TO, plan.toAyah)
+                putExtra(EXTRA_AYAH_REPEAT, plan.ayahRepeat)
+                putExtra(EXTRA_RANGE_REPEAT, plan.rangeRepeat)
+                putExtra(EXTRA_GAP, plan.gapFactor)
+                putExtra(EXTRA_SPEED, plan.speed)
             }
             ContextCompat.startForegroundService(context, intent)
         }

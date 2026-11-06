@@ -29,6 +29,7 @@ import androidx.compose.material.icons.automirrored.filled.NavigateBefore
 import androidx.compose.material.icons.automirrored.filled.NavigateNext
 import androidx.compose.material.icons.filled.Pause
 import androidx.compose.material.icons.filled.PlayArrow
+import androidx.compose.material.icons.filled.School
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.material.icons.filled.TextFields
 import androidx.compose.material.icons.filled.Star as FilledStar
@@ -89,9 +90,14 @@ import id.linuwih.sholat.quran.data.MushafStyle
 import id.linuwih.sholat.quran.data.ReadingFontSize
 import id.linuwih.sholat.quran.data.Surah
 import id.linuwih.sholat.quran.data.TranslationLanguage
+import id.linuwih.sholat.quran.hafalan.HafalanViewModel
 
 @Composable
-fun QuranScreen(modifier: Modifier = Modifier, viewModel: QuranViewModel = viewModel()) {
+fun QuranScreen(
+    modifier: Modifier = Modifier,
+    viewModel: QuranViewModel = viewModel(),
+    hafalanViewModel: HafalanViewModel = viewModel(),
+) {
     val navController = rememberNavController()
 
     NavHost(navController = navController, startDestination = "list", modifier = modifier) {
@@ -102,6 +108,26 @@ fun QuranScreen(modifier: Modifier = Modifier, viewModel: QuranViewModel = viewM
                 onOpenAyah = { surah, ayah -> navController.navigate("surah/$surah?ayah=$ayah") },
                 onOpenAudioManager = { navController.navigate("audio") },
                 onOpenSearch = { navController.navigate("search") },
+                onOpenHafalan = { navController.navigate("hafalan") },
+            )
+        }
+        composable("hafalan") {
+            HafalanHomeScreen(
+                quranViewModel = viewModel,
+                viewModel = hafalanViewModel,
+                onBack = { navController.popBackStack() },
+                onOpenSurah = { number -> navController.navigate("hafalan/$number") },
+            )
+        }
+        composable(
+            route = "hafalan/{number}",
+            arguments = listOf(navArgument("number") { type = NavType.IntType }),
+        ) { backStackEntry ->
+            HafalanSessionScreen(
+                surahNumber = backStackEntry.arguments?.getInt("number") ?: 1,
+                quranViewModel = viewModel,
+                viewModel = hafalanViewModel,
+                onBack = { navController.popBackStack() },
             )
         }
         composable("audio") {
@@ -152,6 +178,7 @@ private fun SurahListScreen(
     onOpenAyah: (surah: Int, ayah: Int) -> Unit,
     onOpenAudioManager: () -> Unit,
     onOpenSearch: () -> Unit,
+    onOpenHafalan: () -> Unit,
 ) {
     val surahs by viewModel.surahs.collectAsState()
     val lastRead by viewModel.lastRead.collectAsState()
@@ -167,6 +194,12 @@ private fun SurahListScreen(
             TopAppBar(
                 title = { Text(stringResource(R.string.quran_title)) },
                 actions = {
+                    IconButton(onClick = onOpenHafalan) {
+                        Icon(
+                            Icons.Filled.School,
+                            contentDescription = stringResource(R.string.hafalan_title),
+                        )
+                    }
                     IconButton(onClick = onOpenSearch) {
                         Icon(
                             Icons.Filled.Search,

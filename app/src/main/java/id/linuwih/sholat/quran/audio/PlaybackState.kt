@@ -11,7 +11,11 @@ data class PlaybackSnapshot(
     val isPlaying: Boolean = false,
     /** true selama sesi masih hidup walau sedang dijeda — dipakai UI untuk menampilkan kontrol. */
     val isActive: Boolean = false,
+    /** Terisi hanya saat sesi hafalan (ulang ayat) berjalan; null untuk murottal biasa. */
+    val hafalan: HafalanSession? = null,
 )
+
+data class HafalanSession(val plan: HafalanPlan, val position: HafalanPosition)
 
 /**
  * Jembatan status antara AudioPlaybackService dan UI.
