@@ -13,7 +13,7 @@ android {
     compileSdk = 35
 
     defaultConfig {
-        applicationId = "id.linuwih.sholat"
+        applicationId = "id.linuwih.sembahyang"
         minSdk = 21
         targetSdk = 35
         versionCode = 2
