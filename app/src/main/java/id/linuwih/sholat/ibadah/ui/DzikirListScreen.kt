@@ -48,6 +48,7 @@ import id.linuwih.sholat.ui.components.CompactSelector
 import id.linuwih.sholat.quran.data.ArabicFont
 import id.linuwih.sholat.quran.data.QuranPrefs
 import id.linuwih.sholat.quran.ui.amiriQuranFontFamily
+import id.linuwih.sholat.quran.ui.lpmqIsepMisbahFontFamily
 import id.linuwih.sholat.ui.theme.OrnamentDivider
 import id.linuwih.sholat.ui.theme.PaperPage
 import id.linuwih.sholat.ui.theme.PrintSerif
@@ -69,13 +70,10 @@ fun DzikirListScreen(onBack: () -> Unit) {
         items = repository.getItems(selectedSet)
     }
 
-    // Font Arab dzikir: Amiri Quran, kecuali user memilih font sistem di layar Qur'an.
-    // LPMQ tidak punya glyph alif wasla (U+0671) yang muncul ratusan kali di teks Al-Ma'tsurat;
-    // kalau dipakai, huruf itu jatuh ke font lain sehingga sambungan & harakatnya berantakan.
+    // Font Arab dzikir dipilih PER BACAAN (lihat dzikirArabicFont), kecuali user memilih font
+    // sistem di layar Qur'an.
     val prefs = remember { QuranPrefs(context.applicationContext) }
-    val arabicFamily = remember {
-        if (prefs.arabicFont.resolve(prefs.mushafStyle) == ArabicFont.SYSTEM) null else amiriQuranFontFamily
-    }
+    val useSystemFont = remember { prefs.arabicFont.resolve(prefs.mushafStyle) == ArabicFont.SYSTEM }
 
     PaperPage {
     Scaffold(
@@ -115,7 +113,7 @@ fun DzikirListScreen(onBack: () -> Unit) {
                                 modifier = Modifier.fillMaxWidth().padding(16.dp),
                             )
                         } else {
-                            DzikirRow(item, arabicFamily)
+                            DzikirRow(item, if (useSystemFont) null else dzikirArabicFont(item.arabic))
                             OrnamentDivider()
                         }
                     }
@@ -125,6 +123,18 @@ fun DzikirListScreen(onBack: () -> Unit) {
     }
     }
 }
+
+/**
+ * Teks Al-Ma'tsurat bercampur dua gaya penulisan, dan tidak ada satu font bawaan yang
+ * meng-cover keduanya (dicek dari cmap font terhadap seluruh berkas dzikir):
+ * - Gaya Kemenag (mayoritas): LPMQ lengkap. Sebagian bacaan memakai U+06D5 sebagai pembawa
+ *   tanda waqaf ("ەۙ") yang hanya ditangani benar oleh LPMQ; di Amiri karakter itu jatuh ke
+ *   font lain dan tampil sebagai huruf liar.
+ * - Gaya Utsmani: memakai alif wasla (U+0671) yang tidak ada di LPMQ, jadi pakai Amiri Quran.
+ * Kalau huruf jatuh ke font lain, sambungan huruf & posisi harakat ikut berantakan.
+ */
+private fun dzikirArabicFont(arabic: String): FontFamily =
+    if (arabic.contains('ٱ')) amiriQuranFontFamily else lpmqIsepMisbahFontFamily
 
 @Composable
 private fun DzikirRow(item: DzikirItem, arabicFamily: FontFamily?) {
