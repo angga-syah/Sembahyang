@@ -140,8 +140,11 @@
     <string name="waris_amount_per_person_format">%1$s per person (%2$d people, total %3$s)</string>
     <string name="waris_aul_note">Fixed shares exceed 1 in total (\'aul) — all shares above have already been proportionally reduced automatically, per the standard rule.</string>
     <string name="waris_radd_note">Some of the estate is not allocated to any heir within this calculator\'s scope. This may mean other heirs (grandparents/siblings) are entitled to it, or that a redistribution (radd) is needed — consulting a faraid scholar is REQUIRED for this case.</string>
-    <string name="ibadah_section_fitur">Features</string>
-    <string name="ibadah_section_pengaturan">Settings</string>
+    <string name="ibadah_section_harian">Daily practice</string>
+    <string name="ibadah_section_panduan">Guides &amp; calendar</string>
+    <string name="ibadah_section_hitung">Islamic calculators</string>
+    <string name="ibadah_section_pengaturan">App settings</string>
+    <string name="ibadah_today_label">Today</string>
     <string name="ibadah_menu_tajwid_title">Tajweed Guide</string>
     <string name="ibadah_menu_tajwid_subtitle">Recitation rules &amp; what the colors mean</string>
     <string name="tajwid_guide_title">Tajweed Guide</string>

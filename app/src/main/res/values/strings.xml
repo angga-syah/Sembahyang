@@ -144,8 +144,11 @@
     <string name="waris_amount_per_person_format">%1$s per orang (%2$d orang, total %3$s)</string>
     <string name="waris_aul_note">Total bagian tetap melebihi 1 (\'aul) — semua bagian di atas sudah diperkecil proporsional secara otomatis, sesuai kaidah baku.</string>
     <string name="waris_radd_note">Ada sisa harta yang tidak terbagi ke ahli waris manapun dalam cakupan kalkulator ini. Ini bisa berarti ada ahli waris lain (kakek/nenek/saudara) yang berhak, atau butuh radd (pengembalian sisa) — WAJIB konsultasi ke ahli faraid untuk kasus ini.</string>
-    <string name="ibadah_section_fitur">Fitur</string>
-    <string name="ibadah_section_pengaturan">Pengaturan</string>
+    <string name="ibadah_section_harian">Amalan harian</string>
+    <string name="ibadah_section_panduan">Panduan &amp; kalender</string>
+    <string name="ibadah_section_hitung">Kalkulator syariah</string>
+    <string name="ibadah_section_pengaturan">Pengaturan aplikasi</string>
+    <string name="ibadah_today_label">Hari ini</string>
     <string name="ibadah_menu_tajwid_title">Panduan Tajwid</string>
     <string name="ibadah_menu_tajwid_subtitle">Kaidah bacaan &amp; arti warna di layar Qur\'an</string>
     <string name="tajwid_guide_title">Panduan Tajwid</string>
