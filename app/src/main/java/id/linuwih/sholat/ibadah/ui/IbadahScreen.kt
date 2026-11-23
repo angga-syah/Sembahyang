@@ -217,7 +217,9 @@ private fun TodayCard(onClick: () -> Unit) {
                 )
                 Spacer(Modifier.height(6.dp))
                 Text(
-                    hijri.toString(),
+                    // Spasi tak-terputus sebelum "H": dengan huruf sistem besar, "H" tidak
+                    // tertinggal sendirian di baris kedua.
+                    hijri.toString().replace(" H", " H"),
                     style = MaterialTheme.typography.titleLarge.copy(fontFamily = FontFamily.Serif),
                     color = GoldAccent,
                 )
@@ -280,7 +282,8 @@ private fun MenuTile(item: IbadahMenuItem, tone: Tone, onOpen: (String) -> Unit,
                 stringResource(item.subtitleRes),
                 style = MaterialTheme.typography.bodySmall,
                 color = scheme.onSurfaceVariant,
-                maxLines = 2,
+                // 3 baris: cukup untuk subjudul terpanjang saat ukuran huruf sistem diperbesar.
+                maxLines = 3,
                 overflow = TextOverflow.Ellipsis,
             )
         }
