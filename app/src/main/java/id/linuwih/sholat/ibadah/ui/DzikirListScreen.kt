@@ -136,6 +136,15 @@ fun DzikirListScreen(onBack: () -> Unit) {
 private fun dzikirArabicFont(arabic: String): FontFamily =
     if (arabic.contains('ٱ')) amiriQuranFontFamily else lpmqIsepMisbahFontFamily
 
+/**
+ * Teks gaya Utsmani di berkas dzikir (turunan Tanzil) menulis tanwin dhammah terbuka sebagai
+ * U+065E, karakter yang tidak ada di Amiri Quran -- akibatnya huruf + tanwinnya digambar font
+ * sistem dan tampak lain sendiri (mis. "شَرِيكٞ" di Al-Isra 111). Titik kode yang tepat untuk
+ * tanda itu adalah U+08F1 (ARABIC OPEN DAMMATAN), yang dimiliki Amiri. Hanya untuk tampilan;
+ * berkas data tidak diubah.
+ */
+private fun normalizeForAmiri(arabic: String): String = arabic.replace('ٞ', 'ࣱ')
+
 @Composable
 private fun DzikirRow(item: DzikirItem, arabicFamily: FontFamily?) {
     // 24dp kiri-kanan: harakat & tanda waqaf di ujung baris Arab menjorok keluar batas glyph.
@@ -153,7 +162,7 @@ private fun DzikirRow(item: DzikirItem, arabicFamily: FontFamily?) {
         Spacer(Modifier.height(10.dp))
         val arabicBase = MaterialTheme.typography.headlineSmall
         Text(
-            item.arabic,
+            if (arabicFamily === amiriQuranFontFamily) normalizeForAmiri(item.arabic) else item.arabic,
             // Jarak baris 1.9x seperti layar baca Qur'an: rasio Latin bawaan (~1.33x) membuat
             // harakat baris bawah menabrak harakat baris atas begitu bacaan panjang wrap.
             style = arabicBase.copy(lineHeight = arabicBase.fontSize * 1.9f, fontFamily = arabicFamily),
