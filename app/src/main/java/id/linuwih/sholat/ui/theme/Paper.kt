@@ -184,6 +184,9 @@ fun PaperPage(modifier: Modifier = Modifier, framed: Boolean = false, content: @
             surfaceContainer = palette.paper,
             surfaceContainerHigh = palette.paperEdge.copy(alpha = 0.6f).compositeOn(palette.paper),
             surfaceContainerHighest = palette.paperEdge,
+            // Rona elevasi (bar bawah, dialog) ikut emas kertas; dengan teal bawaan, permukaan
+            // yang terangkat tampak kehijauan di atas kertas krem.
+            surfaceTint = palette.rule,
         )
     }
     Box(modifier.fillMaxSize().paperBackground(palette, texture, framed)) {
