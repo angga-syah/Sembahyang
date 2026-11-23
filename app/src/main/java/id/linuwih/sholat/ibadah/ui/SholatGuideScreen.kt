@@ -63,9 +63,12 @@ fun SholatGuideScreen(onBack: () -> Unit) {
 
     LaunchedEffect(Unit) { steps = repository.getSteps() }
 
+    id.linuwih.sholat.ui.theme.PaperPage {
     Scaffold(
+        containerColor = androidx.compose.ui.graphics.Color.Transparent,
         topBar = {
             TopAppBar(
+                colors = id.linuwih.sholat.ui.theme.paperTopBarColors(),
                 title = { Text(stringResource(R.string.sholat_guide_title)) },
                 navigationIcon = {
                     IconButton(onClick = onBack) {
@@ -103,6 +106,7 @@ fun SholatGuideScreen(onBack: () -> Unit) {
                 )
             }
         }
+    }
     }
 }
 

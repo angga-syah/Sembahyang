@@ -45,6 +45,16 @@ import id.linuwih.sholat.ibadah.data.DzikirItem
 import id.linuwih.sholat.ibadah.data.DzikirRepository
 import id.linuwih.sholat.ibadah.data.DzikirSet
 import id.linuwih.sholat.ui.components.CompactSelector
+import id.linuwih.sholat.quran.data.ArabicFont
+import id.linuwih.sholat.quran.data.QuranPrefs
+import id.linuwih.sholat.quran.ui.amiriQuranFontFamily
+import id.linuwih.sholat.ui.theme.OrnamentDivider
+import id.linuwih.sholat.ui.theme.PaperPage
+import id.linuwih.sholat.ui.theme.PrintSerif
+import id.linuwih.sholat.ui.theme.paperTopBarColors
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.font.FontFamily
+import androidx.compose.ui.text.font.FontStyle
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -59,9 +69,20 @@ fun DzikirListScreen(onBack: () -> Unit) {
         items = repository.getItems(selectedSet)
     }
 
+    // Font Arab dzikir: Amiri Quran, kecuali user memilih font sistem di layar Qur'an.
+    // LPMQ tidak punya glyph alif wasla (U+0671) yang muncul ratusan kali di teks Al-Ma'tsurat;
+    // kalau dipakai, huruf itu jatuh ke font lain sehingga sambungan & harakatnya berantakan.
+    val prefs = remember { QuranPrefs(context.applicationContext) }
+    val arabicFamily = remember {
+        if (prefs.arabicFont.resolve(prefs.mushafStyle) == ArabicFont.SYSTEM) null else amiriQuranFontFamily
+    }
+
+    PaperPage {
     Scaffold(
+        containerColor = Color.Transparent,
         topBar = {
             TopAppBar(
+                colors = paperTopBarColors(),
                 title = { Text(stringResource(R.string.dzikir_title)) },
                 navigationIcon = {
                     IconButton(onClick = onBack) {
@@ -94,25 +115,21 @@ fun DzikirListScreen(onBack: () -> Unit) {
                                 modifier = Modifier.fillMaxWidth().padding(16.dp),
                             )
                         } else {
-                            DzikirRow(item)
-                            // Menjorok & tipis, seperti antar ayat di layar baca — garis penuh
-                            // antar bacaan membuat daftar terlihat seperti tangga.
-                            HorizontalDivider(
-                                modifier = Modifier.padding(horizontal = 24.dp),
-                                thickness = 0.5.dp,
-                                color = MaterialTheme.colorScheme.outlineVariant.copy(alpha = 0.5f),
-                            )
+                            DzikirRow(item, arabicFamily)
+                            OrnamentDivider()
                         }
                     }
                 }
             }
         }
     }
+    }
 }
 
 @Composable
-private fun DzikirRow(item: DzikirItem) {
-    Column(modifier = Modifier.fillMaxWidth().padding(16.dp)) {
+private fun DzikirRow(item: DzikirItem, arabicFamily: FontFamily?) {
+    // 24dp kiri-kanan: harakat & tanda waqaf di ujung baris Arab menjorok keluar batas glyph.
+    Column(modifier = Modifier.fillMaxWidth().padding(horizontal = 24.dp, vertical = 16.dp)) {
         Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = androidx.compose.foundation.layout.Arrangement.SpaceBetween) {
             Text(item.title, style = MaterialTheme.typography.labelMedium, color = MaterialTheme.colorScheme.onSurfaceVariant)
             if (item.repeat > 1) {
@@ -124,16 +141,20 @@ private fun DzikirRow(item: DzikirItem) {
             }
         }
         Spacer(Modifier.height(10.dp))
+        val arabicBase = MaterialTheme.typography.headlineSmall
         Text(
             item.arabic,
-            style = MaterialTheme.typography.headlineSmall,
+            // Jarak baris 1.9x seperti layar baca Qur'an: rasio Latin bawaan (~1.33x) membuat
+            // harakat baris bawah menabrak harakat baris atas begitu bacaan panjang wrap.
+            style = arabicBase.copy(lineHeight = arabicBase.fontSize * 1.9f, fontFamily = arabicFamily),
             textAlign = TextAlign.End,
             modifier = Modifier.fillMaxWidth(),
         )
         Spacer(Modifier.height(10.dp))
-        Text(item.latin, style = MaterialTheme.typography.bodyMedium, color = MaterialTheme.colorScheme.tertiary)
+        val body = MaterialTheme.typography.bodyMedium.copy(fontFamily = PrintSerif)
+        Text(item.latin, style = body, fontStyle = FontStyle.Italic, color = MaterialTheme.colorScheme.tertiary)
         Spacer(Modifier.height(10.dp))
-        Text(item.translation, style = MaterialTheme.typography.bodyMedium)
+        Text(item.translation, style = body)
     }
 }
 

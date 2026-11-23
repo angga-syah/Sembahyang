@@ -1,5 +1,7 @@
 package id.linuwih.sholat.quran.ui
 
+import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -91,6 +93,12 @@ import id.linuwih.sholat.quran.data.ReadingFontSize
 import id.linuwih.sholat.quran.data.Surah
 import id.linuwih.sholat.quran.data.TranslationLanguage
 import id.linuwih.sholat.quran.hafalan.HafalanViewModel
+import id.linuwih.sholat.ui.theme.AyahMedallion
+import id.linuwih.sholat.ui.theme.LocalPaper
+import id.linuwih.sholat.ui.theme.OrnamentDivider
+import id.linuwih.sholat.ui.theme.PaperPage
+import id.linuwih.sholat.ui.theme.PrintSerif
+import id.linuwih.sholat.ui.theme.paperTopBarColors
 
 @Composable
 fun QuranScreen(
@@ -100,7 +108,10 @@ fun QuranScreen(
 ) {
     val navController = rememberNavController()
 
-    NavHost(navController = navController, startDestination = "list", modifier = modifier) {
+    // Seluruh tab Qur'an memakai halaman "kertas mushaf": latar krem bertekstur, tinta
+    // cokelat-hitam, dan bingkai garis emas di kiri-kanan.
+    PaperPage(modifier = modifier, framed = true) {
+    NavHost(navController = navController, startDestination = "list") {
         composable("list") {
             SurahListScreen(
                 viewModel = viewModel,
@@ -172,6 +183,7 @@ fun QuranScreen(
             )
         }
     }
+    }
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -194,9 +206,11 @@ private fun SurahListScreen(
     }
 
     Scaffold(
+        containerColor = Color.Transparent,
         topBar = {
             TopAppBar(
                 title = { Text(stringResource(R.string.quran_title)) },
+                colors = paperTopBarColors(),
                 actions = {
                     IconButton(onClick = onOpenHafalan) {
                         Icon(
@@ -227,7 +241,7 @@ private fun SurahListScreen(
             return@Scaffold
         }
 
-        Column(modifier = Modifier.fillMaxSize().padding(padding)) {
+        Column(modifier = Modifier.fillMaxSize().padding(padding).padding(horizontal = 6.dp)) {
             lastRead?.let { lr ->
                 val surahName = surahs.find { it.number == lr.surahNumber }?.transliteration
                     ?: stringResource(R.string.quran_surah_fallback, lr.surahNumber)
@@ -285,7 +299,8 @@ private fun SurahListScreen(
                 items(filtered) { surah ->
                     SurahRow(surah = surah, onClick = { onOpenSurah(surah.number) })
                     HorizontalDivider(
-                        modifier = Modifier.padding(start = 60.dp),
+                        // Berhenti sebelum bingkai kanan, tidak menembus garisnya.
+                        modifier = Modifier.padding(start = 74.dp, end = 22.dp),
                         thickness = 0.5.dp,
                         color = MaterialTheme.colorScheme.outlineVariant.copy(alpha = 0.6f),
                     )
@@ -301,17 +316,12 @@ private fun SurahRow(surah: Surah, onClick: () -> Unit) {
         modifier = Modifier
             .fillMaxWidth()
             .clickable(onClick = onClick)
-            .padding(horizontal = 16.dp, vertical = 12.dp),
+            .padding(horizontal = 22.dp, vertical = 12.dp),
         verticalAlignment = Alignment.CenterVertically,
     ) {
-        // Nomor tanpa lingkaran berwarna — 114 lingkaran solid membuat daftar terasa ramai.
-        Box(modifier = Modifier.width(32.dp), contentAlignment = Alignment.Center) {
-            Text(
-                "${surah.number}",
-                style = MaterialTheme.typography.labelLarge,
-                color = MaterialTheme.colorScheme.onSurfaceVariant,
-            )
-        }
+        // Medali bergaris tipis seperti penanda di mushaf cetak — tidak solid, jadi 114 baris
+        // tetap terasa tenang.
+        AyahMedallion(surah.number, size = 36.dp)
         Spacer(Modifier.width(12.dp))
         Column(modifier = Modifier.weight(1f)) {
             Text(surah.transliteration, style = MaterialTheme.typography.titleMedium)
@@ -364,6 +374,14 @@ private fun SurahDetailScreen(
         ayahs = viewModel.ayahsFor(surahNumber)
     }
 
+    // Basmalah di kepala surah diambil dari teks Al-Fatihah ayat 1 pada gaya mushaf yang
+    // sama, bukan diketik ulang -- jadi ejaan dan harakatnya pasti cocok dengan font aktif.
+    // Al-Fatihah sudah memuatnya sebagai ayat 1, dan At-Taubah memang tanpa basmalah.
+    var bismillah by remember { mutableStateOf<String?>(null) }
+    LaunchedEffect(reloadTrigger) {
+        bismillah = viewModel.ayahsFor(1).firstOrNull()?.arabicTextTajweed
+    }
+
     LaunchedEffect(surahNumber, surah?.totalVerses) {
         surah?.let { viewModel.checkAudioStatus(surahNumber, it.totalVerses) }
     }
@@ -404,8 +422,10 @@ private fun SurahDetailScreen(
     }
 
     Scaffold(
+        containerColor = Color.Transparent,
         topBar = {
             TopAppBar(
+                colors = paperTopBarColors(),
                 title = { Text(surah?.transliteration ?: stringResource(R.string.quran_surah_fallback, surahNumber)) },
                 navigationIcon = {
                     IconButton(onClick = onBack) {
@@ -462,7 +482,18 @@ private fun SurahDetailScreen(
                     onTogglePause = { viewModel.togglePlayPause() },
                     onDelete = { viewModel.deleteAudio(surahNumber) },
                 )
-                HorizontalDivider()
+                // Kepala surah ikut item ke-0 (bukan item sendiri) supaya indeks ayat di
+                // LazyColumn tetap "+1", seperti yang diandalkan lompat-ke-ayat & posisi
+                // terakhir dibaca di atas.
+                if (surah != null) {
+                    SurahHeader(
+                        surah = surah,
+                        bismillah = bismillah?.takeIf { surahNumber != 1 && surahNumber != 9 },
+                        arabicFont = arabicFont,
+                        mushafStyle = mushafStyle,
+                        scale = fontSize.scale,
+                    )
+                }
             }
             items(list) { ayah ->
                 val isBookmarked = bookmarks.any { it.surahNumber == surahNumber && it.ayahNumber == ayah.number }
@@ -478,13 +509,8 @@ private fun SurahDetailScreen(
                     onToggleBookmark = { viewModel.toggleBookmark(surahNumber, ayah.number, isBookmarked) },
                     onLoadTafsir = { viewModel.tafsirFor(surahNumber, ayah.number) },
                 )
-                // Garis tipis menjorok, bukan Divider setebal penuh selebar layar: deretan garis
-                // penuh antar ayat membuat layar baca terlihat seperti tangga.
-                HorizontalDivider(
-                    modifier = Modifier.padding(horizontal = 24.dp),
-                    thickness = 0.5.dp,
-                    color = MaterialTheme.colorScheme.outlineVariant.copy(alpha = 0.5f),
-                )
+                // Ornamen kecil antar ayat, bukan garis penuh selebar layar.
+                OrnamentDivider()
             }
         }
     }
@@ -625,26 +651,17 @@ private fun AyahRow(
     onLoadTafsir: suspend () -> String?,
 ) {
     val scale = fontSize.scale
-    Column(modifier = Modifier.fillMaxWidth().padding(horizontal = 20.dp, vertical = 18.dp)) {
+    // 28dp: tanda waqaf & harakat di ujung kanan baris kerap menjorok keluar batas glyph;
+    // jarak ini menjaga mereka tidak menempel ke garis bingkai.
+    Column(modifier = Modifier.fillMaxWidth().padding(horizontal = 28.dp, vertical = 14.dp)) {
         Row(
             modifier = Modifier.fillMaxWidth(),
             horizontalArrangement = Arrangement.SpaceBetween,
             verticalAlignment = Alignment.CenterVertically,
         ) {
-            // Lencana nomor ringkas menggantikan teks "Ayat N" — nomornya tetap terbaca tapi
-            // tidak lagi bersaing perhatian dengan teks Arabnya.
-            Surface(
-                shape = androidx.compose.foundation.shape.CircleShape,
-                color = MaterialTheme.colorScheme.surfaceVariant,
-            ) {
-                Text(
-                    "${ayah.number}",
-                    style = MaterialTheme.typography.labelSmall,
-                    color = MaterialTheme.colorScheme.onSurfaceVariant,
-                    modifier = Modifier.defaultMinSize(minWidth = 26.dp).padding(horizontal = 8.dp, vertical = 4.dp),
-                    textAlign = TextAlign.Center,
-                )
-            }
+            // Medali nomor ayat bergaya mushaf (digambar, bukan glyph) — nomornya tetap
+            // terbaca tanpa bersaing perhatian dengan teks Arabnya.
+            AyahMedallion(ayah.number)
             IconButton(onClick = onToggleBookmark, modifier = Modifier.size(36.dp)) {
                 Icon(
                     imageVector = if (isBookmarked) Icons.Filled.FilledStar else Icons.Outlined.OutlinedStar,
@@ -691,17 +708,18 @@ private fun AyahRow(
             val latinBase = MaterialTheme.typography.bodyMedium
             Text(
                 it,
-                style = latinBase.copy(fontSize = latinBase.fontSize * scale, lineHeight = latinBase.lineHeight * scale),
+                style = latinBase.copy(fontSize = latinBase.fontSize * scale, lineHeight = latinBase.lineHeight * scale, fontFamily = PrintSerif),
                 fontStyle = androidx.compose.ui.text.font.FontStyle.Italic,
                 color = MaterialTheme.colorScheme.tertiary,
             )
         }
+        // Terjemahan memakai huruf berkait (serif) seperti terjemahan pada mushaf cetak.
         if (translationLanguage != TranslationLanguage.INGGRIS) {
             Spacer(Modifier.height(10.dp))
             val idBase = MaterialTheme.typography.bodyMedium
             Text(
                 ayah.translationId,
-                style = idBase.copy(fontSize = idBase.fontSize * scale, lineHeight = idBase.lineHeight * scale),
+                style = idBase.copy(fontSize = idBase.fontSize * scale, lineHeight = idBase.lineHeight * scale, fontFamily = PrintSerif),
             )
         }
         if (translationLanguage != TranslationLanguage.INDONESIA) {
@@ -709,12 +727,77 @@ private fun AyahRow(
             val enBase = MaterialTheme.typography.bodySmall
             Text(
                 ayah.translationEn,
-                style = enBase.copy(fontSize = enBase.fontSize * scale, lineHeight = enBase.lineHeight * scale),
+                style = enBase.copy(fontSize = enBase.fontSize * scale, lineHeight = enBase.lineHeight * scale, fontFamily = PrintSerif),
                 color = MaterialTheme.colorScheme.onSurfaceVariant,
             )
         }
         Spacer(Modifier.height(6.dp))
         TafsirSection(onLoadTafsir = onLoadTafsir, scale = scale)
+    }
+}
+
+/**
+ * Kepala surah seperti di mushaf cetak: bingkai bergaris ganda emas berisi nama surah dalam
+ * huruf Arab, keterangan singkat, lalu basmalah di tengah. Teks Arab memakai font dan rasio
+ * jarak baris yang sama dengan ayat (1.9x) supaya harakat tidak terpotong atau bertumpuk.
+ */
+@Composable
+private fun SurahHeader(
+    surah: Surah,
+    bismillah: String?,
+    arabicFont: ArabicFont,
+    mushafStyle: MushafStyle,
+    scale: Float,
+) {
+    val rule = LocalPaper.current?.rule ?: MaterialTheme.colorScheme.primary
+    val fontFamily = arabicFont.toFontFamily(mushafStyle)
+    Column(
+        modifier = Modifier.fillMaxWidth().padding(horizontal = 24.dp, vertical = 12.dp),
+        horizontalAlignment = Alignment.CenterHorizontally,
+    ) {
+        Box(
+            modifier = Modifier
+                .fillMaxWidth()
+                .border(1.6.dp, rule.copy(alpha = 0.85f), androidx.compose.foundation.shape.RoundedCornerShape(10.dp))
+                .padding(3.dp)
+                .border(0.8.dp, rule.copy(alpha = 0.7f), androidx.compose.foundation.shape.RoundedCornerShape(8.dp))
+                .background(rule.copy(alpha = 0.07f), androidx.compose.foundation.shape.RoundedCornerShape(8.dp))
+                .padding(vertical = 10.dp, horizontal = 12.dp),
+            contentAlignment = Alignment.Center,
+        ) {
+            Column(horizontalAlignment = Alignment.CenterHorizontally) {
+                val nameStyle = MaterialTheme.typography.headlineSmall
+                Text(
+                    surah.arabicName,
+                    style = nameStyle.copy(lineHeight = nameStyle.fontSize * 1.9f, fontFamily = fontFamily),
+                    textAlign = TextAlign.Center,
+                )
+                Text(
+                    stringResource(
+                        R.string.quran_surah_meta_format,
+                        surah.transliteration,
+                        surah.totalVerses,
+                        stringResource(if (surah.type == "meccan") R.string.quran_type_meccan else R.string.quran_type_medinan),
+                    ),
+                    style = MaterialTheme.typography.labelMedium.copy(fontFamily = PrintSerif),
+                    color = MaterialTheme.colorScheme.onSurfaceVariant,
+                    textAlign = TextAlign.Center,
+                )
+            }
+        }
+        if (bismillah != null) {
+            Spacer(Modifier.height(12.dp))
+            val base = MaterialTheme.typography.headlineSmall
+            val size = base.fontSize * scale
+            Text(
+                bismillah,
+                style = base.copy(fontSize = size, lineHeight = size * 1.9f, fontFamily = fontFamily),
+                textAlign = TextAlign.Center,
+                modifier = Modifier.fillMaxWidth(),
+            )
+        }
+        Spacer(Modifier.height(4.dp))
+        OrnamentDivider()
     }
 }
 
